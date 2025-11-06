@@ -49,15 +49,14 @@
     h2 { font-size: 26px; font-weight: 600; }
     h3 { font-size: 20px; font-weight: 500; } 
     h4 { margin-top: 0; text-align: center; color: var(--text-color); font-weight: 500;}
-    .report-date { text-align:center; font-weight: normal; margin-top: -12px; margin-bottom: 16px; color: var(--text-light); line-height: 1.5; } /* THAY ĐỔI: Thêm line-height */
+    .report-date { text-align:center; font-weight: normal; margin-top: -12px; margin-bottom: 16px; color: var(--text-light); line-height: 1.5; } 
 
     /* --- CSS CHO LOGO ZENG™ ANIMATED (PHIÊN BẢN MỚI) --- */
     .simple-animated-logo {
         text-align: center; margin-bottom: 15px; margin-top: 10px;
         font-size: 32px; font-weight: 700; 
-        color: var(--logo-color); /* Màu khởi đầu */
+        color: var(--logo-color); 
         overflow: hidden; 
-        /* Thêm transition cho việc đổi màu mượt mà */
         transition: color 0.5s ease-in-out;
     }
     .main-page-logo {
@@ -65,19 +64,16 @@
     }
 
     .simple-animated-logo span {
-        opacity: 0; /* Ẩn các ký tự ban đầu */
+        opacity: 0; 
         display: inline-block; 
-        transform: translateY(15px); /* Bắt đầu ở dưới */
-        /* Dùng transition thay vì animation */
+        transform: translateY(15px); 
         transition: opacity 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
                     transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
     
-    /* Xóa các @keyframes và animation-delay */
-
     .simple-animated-logo .tm {
         font-size: 0.5em; vertical-align: super; margin-left: 2px;
-        font-weight: normal; color: var(--text-light); /* Màu TM riêng */
+        font-weight: normal; color: var(--text-light); 
     }
     /* --- KẾT THÚC CSS LOGO --- */
 
@@ -111,7 +107,7 @@
     
     /* CẬP NHẬT THANH NAV CHÍNH */
     .main-nav { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; }
-    .summary-actions { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 20px; } /* THAY ĐỔI: margin-bottom -> margin-top */
+    .summary-actions { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 20px; } 
     
     .main-nav button { background-color: var(--secondary-color); color: var(--text-color); }
     .main-nav button:hover { background-color: var(--secondary-dark); }
@@ -129,16 +125,14 @@
     .report-table tbody td { font-weight: 500; font-size: 20px; }
     .header { font-weight: 500; background: var(--neutral-light-bg); }
     .so-so { font-size: 32px; font-weight: 600; color: var(--warning-color); vertical-align: middle; }
-    #tongCongRow { background-color: #FFC107; color: var(--text-color); font-weight: 600 !important;} /* THAY ĐỔI: Đổi màu nền sang vàng cam */
-    #mainBonusRow { background-color: var(--success-color); color: #ffffff; } /* THAY ĐỔI: Nền xanh lá, chữ trắng */
+    #tongCongRow { background-color: #FFC107; color: var(--text-color); font-weight: 600 !important;} 
+    #mainBonusRow { background-color: var(--success-color); color: #ffffff; } 
     #mainBonusRow td { font-weight: 600; }
-    .added-ticket-row { background-color: #ffffff; } /* THAY ĐỔI: Đổi nền thành màu trắng */
+    .added-ticket-row { background-color: #ffffff; } 
     
     /* === THAY ĐỔI: Chỉnh dòng bán vé đậm và giống các dòng khác === */
     .added-ticket-row td:first-child { 
-        /* color: #2980b9; */ /* Bỏ màu xanh để dùng màu chữ mặc định */
-        /* font-size: 15px; */ /* Bỏ cỡ chữ riêng để dùng cỡ chữ của bảng (20px) */
-        font-weight: 500; /* Đổi thành 500 để đậm bằng các dòng khác */
+        font-weight: 500; 
     } 
     
     .bang-chu-cell { text-align: left !important; font-style: italic; padding-left: 15px !important; font-size: 10px; font-weight: normal; color: var(--text-light); }
@@ -157,14 +151,14 @@
     .dynamic-input::placeholder { color: var(--secondary-dark); font-weight: normal; }
     textarea.dynamic-input { text-align: right; } 
     #summaryTableContainer { margin-top: 10px; overflow-x: auto; }
-    #summaryTableContainer table { width: auto; } /* CHO PHÉP BẢNG RỘNG HƠN */
+    #summaryTableContainer table { width: auto; } 
     #summaryTableContainer table th { position: sticky; top: 0; z-index: 1; }
     /* NGĂN XUỐNG DÒNG TRONG BẢNG TỔNG KẾT */
     #summaryTableContainer th, 
     #summaryTableContainer td {
         white-space: nowrap;
     }
-    #summaryTableContainer tfoot tr { font-weight: 600; } /* THAY ĐỔI: Xóa màu nền/chữ chung */
+    #summaryTableContainer tfoot tr { font-weight: 600; } 
     /* THAY ĐỔI: Thêm quy tắc mới cho ô tfoot */
     #summaryTableContainer tfoot tr td {
         background-color: var(--header-bg);
@@ -179,25 +173,38 @@
     /* --- CSS MỚI: Cỡ chữ Tổng Tiền (Bảng Tổng Kết) --- */
     #summaryTableContainer tfoot .final-amount-positive,
     #summaryTableContainer tfoot .final-amount-negative {
-        /* font-size: 21px; */ /* <--- ĐÃ XÓA THEO YÊU CẦU */
-        font-weight: 700; /* Đậm hơn các tổng khác (600) */
+        font-weight: 700; 
     }
 
     /* === THAY ĐỔI: Chỉnh nền dòng "Phải nộp" (đỏ) và "Lấy về" (xanh) === */
-    /* .final-amount-positive, .final-amount-negative { background-color: var(--light-red-bg) !important; } */ /* Tắt dòng này */
     .final-amount-positive { 
-        background-color: var(--danger-color) !important; /* Nền đỏ */
-        color: #ffffff !important; /* Chữ trắng */
+        background-color: var(--danger-color) !important; 
+        color: #ffffff !important; 
     }
     .final-amount-negative { 
-        background-color: var(--success-color) !important; /* Nền xanh */
-        color: var(--danger-color) !important; /* THAY ĐỔI: Chữ đỏ */
+        background-color: var(--success-color) !important; 
+        color: var(--danger-color) !important; 
     }
     tr.final-amount-positive td, tr.final-amount-negative td { font-size: 30px !important; font-weight: 600; color: inherit !important; padding: 15px 12px !important; }
     
-    .inline-form { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
-    .inline-form > input { flex: 1 1 100%; } /* THAY ĐỔI: Input luôn chiếm 100% */
-    .inline-form > button { flex: 0 1 auto; white-space: nowrap; padding: 12px 15px; } 
+    /* ĐÃ CHỈNH SỬA: Thay đổi .inline-form để căn chỉnh "Chọn đơn vị" */
+    .inline-form { 
+        display: flex; 
+        gap: 10px; 
+        align-items: center; 
+        flex-wrap: nowrap; 
+    }
+    .inline-form > input, 
+    .inline-form > select { 
+        flex-grow: 1;
+        flex-shrink: 1;
+        min-width: 0; 
+    } 
+    .inline-form > button { 
+        flex: 0 0 auto; 
+        white-space: nowrap; 
+        padding: 12px 15px; 
+    } 
     .home-actions, .form-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     
     /* === THÊM MỚI: Grid cho các nút của Báo cáo chi tiết === */
@@ -205,41 +212,61 @@
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 10px;
-        margin-top: 10px; /* Thêm khoảng cách với input bên trên */
+        margin-top: 10px; 
     }
 
     /* === THÊM MỚI: Grid cho bộ lọc trên PC === */
     .filter-grid-container {
         display: grid;
-        grid-template-columns: 1fr; /* 1-col default (mobile) */
+        grid-template-columns: 1fr; 
         gap: 15px;
     }
     .filter-column {
         display: flex;
         flex-direction: column;
-        gap: 10px; /* Khoảng cách giữa label, input, button */
+        gap: 10px; 
     }
-    /* === KẾT THÚC THÊM MỚI === */
+    /* === KẾT THÚC THÊM MỚI ===
 
     /* === THÊM MỚI: CSS CHO BỘ LỌC DOANH SỐ === */
     .revenue-filter-grid {
         display: grid;
-        grid-template-columns: 1fr; /* Mobile: 1 cột */
+        grid-template-columns: 1fr; 
         gap: 15px;
     }
 
     .revenue-filter-buttons {
         display: grid;
-        grid-template-columns: 2fr 1fr; /* Mobile: Nút Lọc to hơn */
+        grid-template-columns: 2fr 1fr; 
         gap: 10px;
     }
     /* === KẾT THÚC THÊM MỚI === */
 
+    /* --- CSS MỚI: Ẩn/Hiện Định nghĩa vùng --- */
+    .region-lock-container {
+        display: flex; 
+        flex-direction: column;
+        gap: 10px;
+    }
+    .region-lock-container.locked #regionDefinitionsInput,
+    .region-lock-container.locked label[for="regionDefinitionsInput"] {
+        display: none !important; 
+    }
+    .region-lock-container.locked #btnSaveRegions {
+        display: block !important;
+    }
+    /* --- END CSS MỚI --- */
 
     .manual-grid { display: grid; grid-template-columns: auto 1fr; gap: 15px; align-items: center; }
     .manual-grid label { text-align: right; font-size: 15px; }
     .modal-overlay { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: var(--modal-overlay-bg); padding-top: 60px; animation: fadeIn 0.3s ease-out; }
     .modal-content { background-color: var(--container-bg); margin: auto; padding: 25px; border: 1px solid var(--border-color); width: 90%; max-width: 500px; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); position: relative; animation: slideIn 0.3s ease-out; }
+    
+    /* === THAY ĐỔI: Chỉnh CSS cho modal nạp lại file và mật khẩu === */
+    .modal-content.narrow-mobile {
+        max-width: 320px; /* Chiều rộng tối đa nhỏ hơn cho di động */
+    }
+    
     .modal-close-btn { color: var(--text-light); position: absolute; top: 10px; right: 15px; font-size: 28px; font-weight: bold; cursor: pointer; line-height: 1; }
     .modal-close-btn:hover, .modal-close-btn:focus { color: var(--danger-color); text-decoration: none; }
     @keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
@@ -260,9 +287,19 @@
         border: none;
     }
 
-    /* === THAY ĐỔI: CSS cho nút cuộn === */
+    /* === ĐÃ THAY ĐỔI: Vị trí cho nút cuộn lên/xuống === */
+    #scrollToBottomBtn {
+        bottom: 20px; /* Chuyển xuống dưới cùng */
+        top: auto;
+    }
+
+    #scrollToTopBtn {
+        top: 20px; /* Chuyển lên trên cùng */
+        bottom: auto;
+    }
+    
     #scrollToTopBtn, #scrollToBottomBtn {
-        display: none; /* Ẩn ban đầu */
+        display: none; 
         position: fixed;
         right: 20px;
         z-index: 1001;
@@ -271,26 +308,17 @@
         background-color: var(--header-bg);
         color: white;
         cursor: pointer;
-        padding: 0; /* Xóa padding */
-        border-radius: 50%; /* Làm tròn */
+        padding: 0; 
+        border-radius: 50%; 
         opacity: 0;
         transition: opacity 0.3s ease-in-out;
         box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         
-        /* THAY ĐỔI: Chỉnh kích thước nhỏ lại */
         width: 40px; 
         height: 40px;
         font-size: 16px;
-        line-height: 40px; /* Căn giữa icon */
+        line-height: 40px; 
         text-align: center;
-    }
-    
-    #scrollToTopBtn {
-        bottom: 20px;
-    }
-
-    #scrollToBottomBtn {
-        top: 20px; /* THÊM MỚI: Vị trí nút cuộn xuống */
     }
     
     #scrollToTopBtn.show, #scrollToBottomBtn.show {
@@ -302,14 +330,14 @@
         opacity: 1;
         background-color: var(--primary-dark);
     }
-    /* === KẾT THÚC THAY ĐỔI === */
+    /* === KẾT THÚC THAY ĐỔI VỊ TRÍ NÚT CUỘN === */
     
     /* === THÊM MỚI: CSS cho Tiêu đề Báo cáo === */
     #summaryTitle {
-        font-size: 18px; /* Nhỏ hơn h3 (20px) */
+        font-size: 18px; 
     }
     .region-name {
-        display: inline-block; /* Ngăn ngắt dòng giữa chừng */
+        display: inline-block; 
         color: var(--primary-dark);
         font-weight: 600;
     }
@@ -319,30 +347,54 @@
     /* === THÊM MỚI: Media Query cho bố cục PC của bộ lọc === */
     @media (min-width: 768px) {
         .filter-grid-container {
-            grid-template-columns: 1fr 1fr; /* 2-col trên PC */
-        }
-        .filter-column {
-            height: 100%; /* Đảm bảo các cột có chiều cao bằng nhau */
-        }
-        .filter-column textarea {
-            flex-grow: 1; /* Giúp textarea lấp đầy không gian */
-        }
-        .filter-column .inline-form {
-            margin-top: auto; /* Đẩy mục chọn xuống dưới cùng của cột 2 */
-        }
-        /* === THÊM MỚI VÀO BLOCK HIỆN TẠI === */
-        .revenue-filter-grid {
-            grid-template-columns: 1.5fr 1fr 1fr; /* PC: 3 cột (Sắp xếp, Từ, Đến) */
+            grid-template-columns: 1fr; 
             gap: 15px;
-            align-items: flex-end; /* Căn đáy */
+        }
+        
+        .region-filter-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
         }
 
-        .revenue-filter-buttons {
-            grid-column: 1 / -1; /* Hàng mới, span full */
-            margin-top: 15px; /* Khoảng cách với hàng trên */
-            grid-template-columns: 3fr 1fr; /* PC: Nút Lọc vẫn to hơn */
+        .filter-column {
+            height: 100%; 
+            justify-content: flex-start; 
         }
-        /* === KẾT THÚC THÊM MỚI === */
+
+        /* === Bố cục cho phần Chọn Đơn vị (đã chuyển xuống dưới) === */
+        .revenue-filter-grid {
+            grid-template-columns: 1fr 1fr; 
+            gap: 15px;
+            align-items: flex-start;
+        }
+        
+        /* Cột 1: Sắp xếp + Doanh số */
+        .revenue-filter-col-left {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr; 
+            gap: 15px;
+        }
+        
+        /* Cột 2: Chọn Đơn vị */
+        .revenue-filter-col-right {
+             display: grid;
+             grid-template-rows: auto 1fr; 
+             gap: 10px;
+        }
+        
+        .revenue-filter-col-right .inline-form {
+             align-self: flex-start;
+             margin-top: 0;
+        }
+
+        /* Nút Về mặc định căn chỉnh lại */
+        .revenue-filter-grid > div:last-child {
+             grid-column: 1 / -1; 
+             margin-top: 15px;
+             display: flex;
+             justify-content: flex-end; 
+        }
     }
 
 
@@ -351,7 +403,7 @@
         .page { padding: 10px; margin: 10px auto; }
         h2 { font-size: 6vw; } h3 { font-size: 5vw; } label { font-size: 4vw; }
         .simple-animated-logo { font-size: 8vw; } 
-        .main-page-logo { font-size: 6vw; margin-bottom: 15px; } /* Logo nhỏ hơn trên mobile */
+        .main-page-logo { font-size: 6vw; margin-bottom: 15px; } 
         input, button, textarea { padding: 10px 12px; font-size: 4vw; }
         th, td { padding: 8px; font-size: 4vw; word-break: break-word; }
         .so-so { font-size: 6vw; word-break: break-all; }
@@ -365,15 +417,12 @@
         
         /* === THÊM MỚI: CSS Tiêu đề cho Mobile === */
         #summaryTitle {
-            font-size: 4.5vw; /* Nhỏ hơn h3 (5vw) */
+            font-size: 4.5vw; 
         }
         /* === KẾT THÚC THÊM MỚI === */
 
         .bang-chu-cell { font-size: 3vw !important; }
         .copyright { font-size: 3vw; }
-        
-        /* === THAY ĐỔI: Xóa cỡ chữ riêng cho dòng bán vé trên di động === */
-        /* .added-ticket-row td:first-child { font-size: 3.8vw; } */ /* Xóa bỏ để dùng cỡ chữ chung 4vw */
         
         .dynamic-input { font-size: 4.2vw !important; }
         .manual-grid { grid-template-columns: 1fr; }
@@ -382,27 +431,59 @@
         .modal-close-btn { top: 8px; right: 12px; font-size: 24px; }
         #notification-area { top: 10px; right: 10px; }
         .notification { font-size: 3.8vw; padding: 10px 15px;}
-        /* XÓA BỎ: .inline-form > button { flex-basis: 48%; } */
 
         /* --- CHỈNH KÍCH CỠ BẢNG TỔNG KẾT (ĐIỆN THOẠI) --- */
         #summaryTableContainer th,
         #summaryTableContainer td {
-            font-size: 2vw; /* Giảm cỡ chữ (mặc định 3.8vw) */
-            padding: 3px;     /* Giảm đệm (mặc định 8px) */
+            font-size: 2vw; 
+            padding: 3px;     
         }
-
         
         /* --- CSS MỚI: Cỡ chữ Tổng Tiền (Mobile) --- */
         #summaryTableContainer tfoot .final-amount-positive,
         #summaryTableContainer tfoot .final-amount-negative {
-            font-size: 2vw; /* <--- THAY ĐỔI: Bằng với các tổng khác */
-            font-weight: 700; /* Đậm hơn các tổng khác (600) */
-            padding: 3px;     /* Giảm đệm (giống các ô khác) */
+            font-size: 2vw; 
+            font-weight: 700; 
+            padding: 3px;     
         }
-        /* Cỡ chữ cho nút Lọc D.Số trên mobile */
-        .revenue-filter-buttons button {
-            font-size: 3.8vw; /* Đảm bảo cỡ chữ nhất quán */
+        
+        /* Bố cục bộ lọc mobile */
+        .revenue-filter-grid {
+             grid-template-columns: 1fr;
+             gap: 15px;
         }
+        /* Căn chỉnh các khối con trên mobile */
+        .revenue-filter-col-left {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .revenue-filter-col-right {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        /* Nút về mặc định */
+        .revenue-filter-grid > div:last-child {
+            margin-top: 0;
+            display: flex;
+            justify-content: stretch;
+        }
+        
+        /* === THAY ĐỔI MỚI: Làm khung modal nhỏ lại trên mobile === */
+        #reloadModal .modal-content, 
+        #passwordModal .modal-content {
+            width: 80%;
+            max-width: 320px;
+            padding: 15px; /* Giảm padding */
+        }
+        
+        #reloadModal .controls-panel, 
+        #passwordModal .controls-panel {
+            padding-left: 0;
+            padding-right: 0;
+        }
+        /* === KẾT THÚC THAY ĐỔI MỚI === */
     }
     @media (min-width: 769px) { #mainPage { max-width: 1200px; } }
     @media print { body * { visibility: hidden; } #summaryTableContainer, #summaryTableContainer * { visibility: visible; } #summaryTableContainer { position: absolute; left: 0; top: 0; width: 100%; overflow: visible; } table { font-size: 10pt; } th, td { padding: 4px; } button, a, #notification-area, .modal-overlay, #loading-indicator { display: none !important; } }
@@ -461,45 +542,48 @@
         <div class="controls-panel" style="margin-bottom: 15px; padding: 15px;">
             <div class="filter-grid-container">
                 <div class="filter-column">
-                    <label for="regionDefinitionsInput">Định nghĩa vùng (Mỗi vùng 1 dòng):</label>
-                    <textarea id="regionDefinitionsInput" rows="4" placeholder="Ví dụ:&#10;huyện Ý Yên: 550_599+650_699+6999&#10;huyện Vụ Bản: 200_299+350_450"></textarea>
-                    <button id="btnSaveRegions" class="success">Lưu Định nghĩa</button>
-                </div>
-                
-                <div class="filter-column">
-                    <label for="regionSelect">Chọn Đơn vị:</label>
-                    <div class="inline-form" style="flex-wrap: nowrap;"> <select id="regionSelect" style="flex-grow: 1;">
-                            <option value="all">--- Tất cả ---</option>
-                            </select>
-                        <button id="btnClearSummaryFilter" class="secondary" style="flex-grow: 0; margin-left: 10px;">Xoá lọc</button>
+                    <div id="regionLockContainer" class="region-lock-container">
+                        <textarea id="regionDefinitionsInput" rows="4" placeholder="Ví dụ:&#10;huyện Ý Yên: 550_599+650_699+6999&#10;huyện Vụ Bản: 200_299+350_450"></textarea>
+                        <button id="btnSaveRegions" class="success">Lưu Định nghĩa</button>
                     </div>
                 </div>
             </div>
             <hr style="border-color: var(--border-color); margin: 20px 0 15px 0; border-style: dashed;">
             
             <div class="revenue-filter-grid">
-                <div class="filter-column">
-                    <label for="sortSelect">Sắp xếp theo:</label>
-                    <select id="sortSelect">
-                        <option value="default">Mặc định (Số sổ)</option>
-                        <option value="revenue_desc">Doanh số (Cao đến Thấp)</option>
-                        <option value="revenue_asc">Doanh số (Thấp đến Cao)</option>
-                    </select>
-                </div>
                 
-                <div class="filter-column">
-                    <label for="minRevenueInput">Doanh số từ (nghìn):</label>
-                    <input type="text" id="minRevenueInput" class="manual-currency" inputmode="numeric" placeholder="Ví dụ: 100 (cho 100.000)">
-                </div>
-                
-                <div class="filter-column">
-                    <label for="maxRevenueInput">Doanh số đến (nghìn):</label>
-                    <input type="text" id="maxRevenueInput" class="manual-currency" inputmode="numeric" placeholder="Để trống = Tối đa">
+                <div class="revenue-filter-col-left filter-column">
+                    <div class="filter-column">
+                        <label for="sortSelect">Sắp xếp theo:</label>
+                        <select id="sortSelect">
+                            <option value="default">Mặc định (Số sổ)</option>
+                            <option value="revenue_desc">Doanh số (Cao đến Thấp)</option>
+                            <option value="revenue_asc">Doanh số (Thấp đến Cao)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-column">
+                        <label for="minRevenueInput">Doanh số từ... trở lên:</label>
+                        <input type="text" id="minRevenueInput" class="manual-currency" inputmode="numeric" placeholder="Ví dụ: 100">
+                    </div>
+                    
+                    <div class="filter-column">
+                        <label for="maxRevenueInput">Doanh số từ... trở xuống:</label>
+                        <input type="text" id="maxRevenueInput" class="manual-currency" inputmode="numeric" placeholder="Để trống = Tối đa">
+                    </div>
                 </div>
 
-                <div class="filter-column revenue-filter-buttons">
-                    <button id="btnApplyRevenueFilter" class="success">Lọc / Sắp xếp</button>
-                    <button id="btnClearRevenueFilter" class="secondary">Xoá lọc D.Số</button>
+                <div class="revenue-filter-col-right filter-column">
+                    <label for="regionSelect">Chọn Đơn vị:</label>
+                    <div class="inline-form"> 
+                        <select id="regionSelect" style="flex-grow: 1;">
+                            <option value="all">--- Tất cả ---</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div style="grid-column: 1 / -1; margin-top: 15px; display: flex; gap: 10px; align-items: center;">
+                    <button id="btnClearRevenueFilter" class="secondary" style="white-space: nowrap; flex: 0 1 auto; padding: 12px 15px;">Về mặc định</button>
                 </div>
             </div>
             </div>
@@ -616,7 +700,7 @@
    </div>
 
     <div id="reloadModal" class="modal-overlay">
-      <div class="modal-content">
+      <div class="modal-content narrow-mobile">
         <span id="closeReloadModalBtn" class="modal-close-btn">&times;</span>
         <div id="reloadFormContent" class="controls-panel" style="border: none; box-shadow: none; padding: 10px 0;"> 
             <h4 style="margin-top:0; text-align:center;">Nạp lại File Excel</h4>
@@ -633,7 +717,7 @@
     </div>
 
     <div id="passwordModal" class="modal-overlay">
-      <div class="modal-content">
+       <div class="modal-content narrow-mobile">
         <span id="closePasswordModalBtn" class="modal-close-btn">&times;</span>
         <div class="controls-panel" style="border: none; box-shadow: none; padding: 10px 0;"> 
             <h4 style="margin-top:0; text-align:center;">Yêu cầu Mật khẩu</h4>
@@ -658,8 +742,8 @@
         let excelData1 = [];
         let excelData2 = [];
         let dateRangeText = "Chưa có ngày";
-        let regionDefinitions = {}; // <-- THÊM MỚI: Để lưu định nghĩa vùng
-        let isRegionLocked = false; // <-- THÊM MỚI: Trạng thái khoá
+        let regionDefinitions = {}; 
+        let isRegionLocked = false; 
 
         const state = {
             currentSoSo: null, baseTongDT: 0, baseTongHH: 0, baseThuong: 0,
@@ -677,8 +761,7 @@
             summaryDate: document.getElementById('summaryDate'), soSoInput: document.getElementById('soSoInput'),
             btnCreateReport: document.getElementById('btnCreateReport'), reportContainer: document.getElementById('reportContainer'),
             actionButtonContainer: document.getElementById('actionButtonContainer'), btnCopySummary: document.getElementById('btnCopySummary'),
-            btnSaveSummary: document.getElementById('btnSaveSummary'), // <-- ĐÃ THAY ĐỔI
-            /* XÓA BỎ: btnToggleSummaryView */
+            btnSaveSummary: document.getElementById('btnSaveSummary'), 
             btnCopyReport: document.getElementById('btnCopyReport'),
             toggleChoicesBtn: document.getElementById('toggleChoicesBtn'), actionChoices: document.getElementById('actionChoices'),
             btnAddTicket: document.getElementById('btnAddTicket'), sellQuantityInput: document.getElementById('sellQuantityInput'),
@@ -709,25 +792,23 @@
             reloadFile2: document.getElementById('reloadFile2'),
             btnReloadSubmit: document.getElementById('btnReloadSubmit'),
             logoContainers: document.querySelectorAll('.simple-animated-logo'), 
-            scrollToTopBtn: document.getElementById('scrollToTopBtn'), // <-- THÊM MỚI
-            scrollToBottomBtn: document.getElementById('scrollToBottomBtn'), // <-- THÊM MỚI
+            scrollToTopBtn: document.getElementById('scrollToTopBtn'), 
+            scrollToBottomBtn: document.getElementById('scrollToBottomBtn'), 
             
-            // === THAY ĐỔI: DOM cho bộ lọc vùng ===
+            // === DOM cho bộ lọc vùng ===
+            regionLockContainer: document.getElementById('regionLockContainer'), 
             regionDefinitionsInput: document.getElementById('regionDefinitionsInput'),
             btnSaveRegions: document.getElementById('btnSaveRegions'),
             regionSelect: document.getElementById('regionSelect'),
-            btnClearSummaryFilter: document.getElementById('btnClearSummaryFilter'),
-            summaryTitle: document.getElementById('summaryTitle'), // <-- THÊM MỚI
+            summaryTitle: document.getElementById('summaryTitle'), 
             
-            // === THÊM MỚI: DOM cho bộ lọc doanh số ===
+            // === DOM cho bộ lọc doanh số ===
             sortSelect: document.getElementById('sortSelect'),
             minRevenueInput: document.getElementById('minRevenueInput'),
             maxRevenueInput: document.getElementById('maxRevenueInput'),
-            btnApplyRevenueFilter: document.getElementById('btnApplyRevenueFilter'),
             btnClearRevenueFilter: document.getElementById('btnClearRevenueFilter'),
-            // === KẾT THÚC THÊM MỚI ===
             
-            // === THÊM MỚI: DOM cho modal mật khẩu ===
+            // === DOM cho modal mật khẩu ===
             passwordModal: document.getElementById('passwordModal'),
             closePasswordModalBtn: document.getElementById('closePasswordModalBtn'),
             passwordInput: document.getElementById('passwordInput'),
@@ -751,7 +832,6 @@
                     const data = new Uint8Array(e.target.result);
                     const workbook = XLSX.read(data, { type: "array" });
                     
-                    // --- ĐÃ SỬA LỖI SHEET EXCEL TẠI ĐÂY ---
                     const firstSheet = workbook.Sheets[workbook.SheetNames[0]]; 
                     
                     const jsonData = XLSX.utils.sheet_to_json(firstSheet, { defval: "" });
@@ -827,30 +907,25 @@
                 data.totalCommission += xsktRevenue * 0.10; 
             }); 
             
-            // === THAY ĐỔI MỚI: Lọc ra các đại lý không có dữ liệu (toàn số 0) ===
-            const keysToDeleteZero = []; // Đổi tên biến để tránh trùng lặp
+            // === Lọc ra các đại lý không có dữ liệu (toàn số 0) ===
+            const keysToDeleteZero = [];
             individualAgentData.forEach((data, key) => {
-                // Kiểm tra xem tất cả các trường doanh thu và thưởng có bằng 0 không
                 const isAllZero = data.lotoDB === 0 &&
                                   data.lotoCap === 0 &&
                                   data.c3_23 === 0 &&
                                   data.c2_27 === 0 &&
                                   data.xskt === 0 &&
                                   data.thuong === 0;
-                
-                // Nếu tất cả đều là 0, đánh dấu để xóa
                 if (isAllZero) {
                     keysToDeleteZero.push(key);
                 }
             });
-
-            // Xóa các đại lý đã đánh dấu
             keysToDeleteZero.forEach(key => {
                 individualAgentData.delete(key);
             });
-            // === KẾT THÚC THAY ĐỔI ===
+            // === KẾT THÚC Lọc Zero ===
 
-            // === THAY ĐỔI: Áp dụng BỘ LỌC VÙNG (NẾU CÓ) ===
+            // === Áp dụng BỘ LỌC VÙNG ===
             const filteredAgentData = new Map();
             if (regionFilterRules) {
                 individualAgentData.forEach((data, agentCode) => {
@@ -859,38 +934,20 @@
                     }
                 });
             } else {
-                // Nếu không lọc, chỉ cần sao chép map
                 individualAgentData.forEach((data, agentCode) => {
                     filteredAgentData.set(agentCode, data);
                 });
             }
             
-            // === THÊM MỚI: Áp dụng BỘ LỌC DOANH SỐ (NẾU CÓ) ===
-            // Lọc trên kết quả của filteredAgentData
-            if (revenueFilter && (revenueFilter.min !== 0 || revenueFilter.max !== Infinity)) {
-                const { min, max } = revenueFilter;
-                const keysToDeleteRevenue = [];
-                filteredAgentData.forEach((data, key) => {
-                    // Lọc những đại lý có doanh số NẰM NGOÀI KHOẢNG
-                    if (data.totalRevenue < min || data.totalRevenue > max) {
-                        keysToDeleteRevenue.push(key);
-                    }
-                });
-                // Xóa những đại lý không thỏa mãn
-                keysToDeleteRevenue.forEach(key => filteredAgentData.delete(key));
-            }
-            // === KẾT THÚC THÊM MỚI ===
-
-            const getAgentNumberString = (code) => String(code).match(/\d+$/)?.[0] || code; // Lấy chuỗi số
+            const getAgentNumberString = (code) => String(code).match(/\d+$/)?.[0] || code; 
             
             const getAgentParts = (code) => { 
-                const numStr = getAgentNumberString(code); // Lấy chuỗi số, ví dụ "01"
+                const numStr = getAgentNumberString(code); 
                 const prefix = String(code).replace(numStr, ''); 
-                return { num: parseInt(numStr, 10), prefix }; // Lưu giá trị số, ví dụ 1
+                return { num: parseInt(numStr, 10), prefix }; 
             }; 
             
-            // === THAY ĐỔI: Sắp xếp dựa trên 'filteredAgentData' ===
-            const sortedKeys = [...filteredAgentData.keys()].sort((a, b) => { // <-- THAY ĐỔI: dùng filteredAgentData
+            const sortedKeys = [...filteredAgentData.keys()].sort((a, b) => { 
                 const partsA = getAgentParts(a); 
                 const partsB = getAgentParts(b); 
                 if (partsA.num !== partsB.num) return partsA.num - partsB.num; 
@@ -900,49 +957,65 @@
             const groupedData = new Map(); 
             
             sortedKeys.forEach(agentCode => { 
-                // === THAY ĐỔI: Gộp nhóm bằng GIÁ TRỊ SỐ ===
                 const numericMatch = String(agentCode).match(/\d+$/);
-                const groupKey = numericMatch ? parseInt(numericMatch[0], 10) : agentCode; // Dùng giá trị số (ví dụ: 1) làm key
+                const groupKey = numericMatch ? parseInt(numericMatch[0], 10) : agentCode; 
 
                 if (!groupedData.has(groupKey)) { 
-                    // === THAY ĐỔI: Thêm groupTotalRevenue và groupTotalThuong ===
                     groupedData.set(groupKey, { agents: [], groupTotal: 0, groupTotalRevenue: 0, groupTotalThuong: 0 }); 
                 } 
                 const group = groupedData.get(groupKey);
-                // === KẾT THÚC THAY ĐỔI ===
                 
-                // === THAY ĐỔI: Lấy chi tiết từ 'filteredAgentData' ===
-                const agentDetails = filteredAgentData.get(agentCode); // <-- THAY ĐỔI: dùng filteredAgentData
+                const agentDetails = filteredAgentData.get(agentCode); 
                 const finalAmount = agentDetails.totalRevenue - agentDetails.totalCommission - agentDetails.thuong; 
                 group.agents.push({ code: agentCode, data: agentDetails }); 
                 group.groupTotal += finalAmount; 
-                group.groupTotalRevenue += agentDetails.totalRevenue; // <-- THÊM DÒNG NÀY
-                group.groupTotalThuong += agentDetails.thuong; // <-- THÊM DÒNG NÀY (YÊU CẦU MỚI)
+                group.groupTotalRevenue += agentDetails.totalRevenue; 
+                group.groupTotalThuong += agentDetails.thuong; 
             }); 
             
-            // === THAY ĐỔI: Tính tổng Grand Totals dựa trên 'filteredAgentData' ===
+            // === ĐÃ CẬP NHẬT: Áp dụng BỘ LỌC DOANH SỐ theo TỔNG NHÓM ===
+            const finalGroupedData = new Map();
+            if (revenueFilter && (revenueFilter.min !== 0 || revenueFilter.max !== Infinity)) {
+                const { min, max } = revenueFilter;
+                
+                groupedData.forEach((group, groupKey) => {
+                    // Lọc những nhóm có tổng doanh số NẰM TRONG KHOẢNG
+                    if (group.groupTotalRevenue >= min && group.groupTotalRevenue <= max) {
+                        finalGroupedData.set(groupKey, group);
+                    }
+                });
+            } else {
+                // Nếu không lọc doanh số, giữ nguyên groupedData
+                groupedData.forEach((group, groupKey) => {
+                    finalGroupedData.set(groupKey, group);
+                });
+            }
+            // === KẾT THÚC CẬP NHẬT LỌC DOANH SỐ THEO NHÓM ===
+
+            // === Tính tổng Grand Totals dựa trên finalGroupedData ===
             const grandTotals = { lotoDB: 0, lotoCap: 0, c3_23: 0, c2_27: 0, xskt: 0, thuong: 0, finalAmount: 0, totalRevenue: 0 }; 
-            filteredAgentData.forEach(data => { // <-- THAY ĐỔI: dùng filteredAgentData
-                grandTotals.lotoDB += data.lotoDB; 
-                grandTotals.lotoCap += data.lotoCap; 
-                grandTotals.c3_23 += data.c3_23; 
-                grandTotals.c2_27 += data.c2_27; 
-                grandTotals.xskt += data.xskt; 
-                grandTotals.thuong += data.thuong; 
-                grandTotals.totalRevenue += data.totalRevenue; // <-- THÊM DÒNG NÀY
-                grandTotals.finalAmount += data.totalRevenue - data.totalCommission - data.thuong; 
+            finalGroupedData.forEach(group => { 
+                group.agents.forEach(agent => {
+                    const data = agent.data;
+                    grandTotals.lotoDB += data.lotoDB; 
+                    grandTotals.lotoCap += data.lotoCap; 
+                    grandTotals.c3_23 += data.c3_23; 
+                    grandTotals.c2_27 += data.c2_27; 
+                    grandTotals.xskt += data.xskt; 
+                    grandTotals.thuong += data.thuong; 
+                    grandTotals.totalRevenue += data.totalRevenue; 
+                    grandTotals.finalAmount += data.totalRevenue - data.totalCommission - data.thuong; 
+                });
             }); 
-            return { groupedData, grandTotals }; 
+            return { groupedData: finalGroupedData, grandTotals }; 
         }
         
         function renderSummaryTable({ groupedData, grandTotals }, sortMode = 'default') { 
             let body = ''; 
             let stt = 1; 
             
-            // === THAY ĐỔI: Chuyển Map thành mảng [key, value] để sắp xếp ===
             let sortedGroupedData = [...groupedData.entries()]; 
             
-            // === THÊM MỚI: Logic sắp xếp các nhóm theo sortMode ===
             switch (sortMode) {
                 case 'revenue_desc':
                     // Sắp xếp theo tổng doanh số nhóm (groupTotalRevenue), cao xuống thấp
@@ -958,9 +1031,7 @@
                     sortedGroupedData.sort((a, b) => parseInt(a[0], 10) - parseInt(b[0], 10));
                     break;
             }
-            // === KẾT THÚC THÊM MỚI ===
             
-            // === THAY ĐỔI: Lặp qua mảng đã sắp xếp (sortedGroupedData) ===
             for (const [groupKey, group] of sortedGroupedData) { 
                 group.agents.forEach((agent, index) => { 
                     const agentData = agent.data; 
@@ -969,57 +1040,41 @@
                     const sttCell = isFirstInGroup ? `<td>${stt}</td>` : '<td></td>'; 
                     let finalAmountCellContent = finalAmount < 0 ? `<span class="negative-value">${formatNumberHiddenK(finalAmount)}</span>` : formatNumberHiddenK(finalAmount); 
                     
-                    // === THÊM MỚI: Logic cho cột Dsố (Theo yêu cầu mới) ===
                     let dsoCellContent = formatNumberHiddenK(agentData.totalRevenue);
-                    // === THÊM MỚI: Logic cho cột Thưởng (Theo yêu cầu mới) ===
                     let thuongCellContent = formatNumberHiddenK(agentData.thuong);
-                    // === KẾT THÚC THÊM MỚI ===
 
-                    // === THAY ĐỔI LOGIC HIỂN THỊ TỔNG NHÓM (Xuống dòng) ===
                     if (index === group.agents.length - 1 && group.agents.length > 1) {
                         finalAmountCellContent += `<br><strong style="color: var(--primary-color); font-size: 0.9em;">(${formatNumberHiddenK(group.groupTotal)})</strong>`; 
                         
-                        // === THÊM MỚI: Thêm tổng cho cột Dsố (Theo yêu cầu mới) ===
                         dsoCellContent += `<br><strong style="color: var(--primary-color); font-size: 0.9em;">(${formatNumberHiddenK(group.groupTotalRevenue)})</strong>`;
-                        // === THÊM MỚI: Thêm tổng cho cột Thưởng (Theo yêu cầu mới) ===
                         thuongCellContent += `<br><strong style="color: var(--primary-color); font-size: 0.9em;">(${formatNumberHiddenK(group.groupTotalThuong)})</strong>`;
                     } 
-                    // === KẾT THÚC THAY ĐỔI ===
 
-                    // === THAY ĐỔI: Thêm cột Dsố (dsoCellContent) và Thưởng (thuongCellContent) ===
                     body += `<tr ${isFirstInGroup ? 'class="group-start-row"' : ''}>${sttCell}<td>${agent.code}</td><td>${formatNumberHiddenK(agentData.lotoDB)}</td><td>${formatNumberHiddenK(agentData.lotoCap)}</td><td>${formatNumberHiddenK(agentData.c3_23)}</td><td>${formatNumberHiddenK(agentData.c2_27)}</td><td>${formatNumberHiddenK(agentData.xskt)}</td><td>${dsoCellContent}</td><td>${thuongCellContent}</td><td>${finalAmountCellContent}</td></tr>`; 
                 }); 
                 stt++; 
             } 
             const grandFinalAmountClass = grandTotals.finalAmount >= 0 ? 'final-amount-positive' : 'final-amount-negative'; 
             
-            // === THAY ĐỔI: Thêm cột Dsố vào footer ===
             const footer = `<tr><td colspan="2">TỔNG CỘNG</td><td>${formatNumberHiddenK(grandTotals.lotoDB)}</td><td>${formatNumberHiddenK(grandTotals.lotoCap)}</td><td>${formatNumberHiddenK(grandTotals.c3_23)}</td><td>${formatNumberHiddenK(grandTotals.c2_27)}</td><td>${formatNumberHiddenK(grandTotals.xskt)}</td><td>${formatNumberHiddenK(grandTotals.totalRevenue)}</td><td>${formatNumberHiddenK(grandTotals.thuong)}</td><td class="${grandFinalAmountClass}">${formatNumberHiddenK(grandTotals.finalAmount)}</td></tr>`; 
             
-            // === THAY ĐỔI: Thêm cột Dsố vào header và đổi "Tiền" thành "Tiền nộp" ===
             return `<table border="1"><thead><tr><th style="width: 8%;">STT</th><th style="width: 12%;">ĐL</th><th>LTô</th><th>LCặp</th><th>3/23</th><th>2/27</th><th>XSKT</th><th>Dsố</th><th>Thưởng</th><th>Tiền nộp</th></tr></thead><tbody>${body}</tbody><tfoot>${footer}</tfoot></table>`; 
         }
-        // === KẾT THÚC THAY ĐỔI ===
 
         function generateSummaryView() { 
             if (excelData1.length === 0 && excelData2.length === 0) return; 
 
-            // === THAY ĐỔI: Lấy quy tắc lọc VÙNG ===
             const selectedRegion = DOM.regionSelect.value;
             let regionFilterRules = null;
             if (selectedRegion !== 'all') {
-                regionFilterRules = regionDefinitions[selectedRegion]; // Lấy quy tắc đã lưu
+                regionFilterRules = regionDefinitions[selectedRegion]; 
             }
-            // === KẾT THÚC THAY ĐỔI ===
 
-            // === THÊM MỚI: Lấy quy tắc lọc DOANH SỐ ===
-            // Lấy giá trị từ data-value (do class 'manual-currency' gán vào)
+            // === Lấy quy tắc lọc DOANH SỐ ===
             const minVal = parseFloat(DOM.minRevenueInput.dataset.value);
             const maxVal = parseFloat(DOM.maxRevenueInput.dataset.value);
 
-            // Chuyển từ nghìn sang đồng. Nếu NaN hoặc 0, dùng giá trị mặc định.
             const minRevenue = (minVal || 0) * 1000;
-            // Nếu maxVal là NaN hoặc 0 (người dùng không nhập) thì dùng Infinity
             const maxRevenue = (!maxVal || maxVal === 0) ? Infinity : maxVal * 1000;
 
             const revenueFilter = {
@@ -1027,19 +1082,14 @@
                 max: maxRevenue
             };
 
-            // === THÊM MỚI: Lấy quy tắc SẮP XẾP ===
             const sortMode = DOM.sortSelect.value;
-            // === KẾT THÚC THÊM MỚI ===
 
-            // === THAY ĐỔI: Truyền TẤT CẢ bộ lọc vào processSummaryData ===
-            const summaryData = processSummaryData(regionFilterRules, revenueFilter); // <-- THAY ĐỔI
+            const summaryData = processSummaryData(regionFilterRules, revenueFilter); 
             
-            // === THAY ĐỔI: Truyền sortMode vào renderSummaryTable ===
-            const tableHTML = renderSummaryTable(summaryData, sortMode); // <-- THAY ĐỔI
+            const tableHTML = renderSummaryTable(summaryData, sortMode); 
             
             DOM.summaryTableContainer.innerHTML = tableHTML; 
             
-            // === THAY ĐỔI: Cập nhật tiêu đề và Tổng Doanh Số (Style mới) ===
             const totalRevenue = summaryData.grandTotals.totalRevenue;
             const totalThuong = summaryData.grandTotals.thuong;
 
@@ -1051,16 +1101,13 @@
                 thuongPercentage = (totalThuong / totalRevenue) * 100;
             }
             
-            // === THAY ĐỔI: Cập nhật text của tiêu đề (dùng innerHTML) ===
             const baseTitle = 'Bảng Báo Cáo Tổng Hợp:';
             if (selectedRegion === 'all') {
                 DOM.summaryTitle.innerHTML = baseTitle;
             } else {
                 DOM.summaryTitle.innerHTML = `${baseTitle} <span class="region-name">${selectedRegion}</span>`;
             }
-            // === KẾT THÚC THAY ĐỔI ===
 
-            // === THAY ĐỔI: Hiển thị Doanh số và Trả thưởng (theo yêu cầu mới) ===
             const revenueSpan = `<span style="font-weight: 500; color: var(--text-color);">Doanh số: <span style="font-weight: 600; color: var(--danger-color);">${totalRevenueFormattedK}</span></span>`;
             const thuongSpan = `<span style="font-weight: 500; color: var(--text-color); margin-left: 15px;">Trả thưởng: <span style="font-weight: 600; color: var(--primary-dark);">${totalThuongFormattedK}</span> (${thuongPercentage.toFixed(1)}%)</span>`;
 
@@ -1076,9 +1123,7 @@
                 const numericPartMatch = agentCode.match(/\d+$/); 
                 if (!numericPartMatch) return false; 
                 
-                // === THAY ĐỔI: So sánh giá trị số thay vì văn bản ===
                 return parseInt(numericPartMatch[0], 10) === parseInt(soSo, 10); 
-                // === KẾT THÚC THAY ĐỔI ===
             }; 
             const filtered1 = excelData1.filter(filterBySoSo); 
             const filtered2 = excelData2.filter(filterBySoSo); 
@@ -1113,9 +1158,7 @@
             const displayDate = manualDateRange !== null ? manualDateRange : dateRangeText; 
             const xsktRowHTML = totals.xskt > 0 ? `<tr><td>Xổ số kiến thiết</td><td>${formatNumberHiddenK(totals.xskt)}</td><td>${formatCommissionCellHiddenK(totals.xskt, commissions.xskt_com)}</td></tr>` : ''; 
             
-            // === THAY ĐỔI: Thêm id="bangChuRow" vào dòng "Bằng chữ" ===
             DOM.reportContainer.innerHTML = `<table><tr><td class="header" style="width: 33.33%;">Thanh toán tiền Đại Lý:</td><td class="so-so">${[...state.accountCodes].join(', ')}</td></tr><tr><td class="header">Thời gian:</td><td>${displayDate}</td></tr></table><br><table class="report-table"><thead><tr><th>Loại hình</th><th>Doanh thu</th><th>Hoa hồng</th></tr></thead><tbody><tr><td>Lô tô Đặc biệt</td><td>${formatNumberHiddenK(totals.lotoDB)}</td><td>${formatCommissionCellHiddenK(totals.lotoDB, commissions.loto_db_com)}</td></tr><tr><td>Lô cặp</td><td>${formatNumberHiddenK(totals.loCap)}</td><td>${formatCommissionCellHiddenK(totals.loCap, commissions.lo_cap_com)}</td></tr><tr><td>2/27</td><td>${formatNumberHiddenK(totals.c2_27)}</td><td>${formatCommissionCellHiddenK(totals.c2_27, commissions.c2_27_com)}</td></tr><tr><td>3/23</td><td>${formatNumberHiddenK(totals.c3_23)}</td><td>${formatCommissionCellHiddenK(totals.c3_23, commissions.c3_23_com)}</td></tr>${xsktRowHTML}<tr id="tongCongRow"><td>Tổng cộng</td><td id="tongDT"></td><td id="tongHH"></td></tr><tr id="mainBonusRow"><td>Thưởng</td><td colspan="2" id="thuong">${formatNumberHiddenK(state.baseThuong)}</td></tr><tr id="finalResultRow"><td id="ketQuaLabel"></td><td id="ketQuaValue" colspan="2"></td></tr><tr id="bangChuRow" class="header"><td>Bằng chữ</td><td colspan="2" id="ketQuaBangChu" class="bang-chu-cell"></td></tr></tbody></table><div id="copyrightInReport" class="copyright" style="display: none;">© 2025 ZENG FINANCE</div>`; 
-            // === KẾT THÚC THAY ĐỔI ===
         }
         function updateDetailedReportView() { 
             if (!state.currentSoSo) return; 
@@ -1136,13 +1179,13 @@
             resultRow.className = phaiNop >= 0 ? 'final-amount-positive' : 'final-amount-negative'; 
             if (phaiNop >= 0) { 
                 const lamTron = Math.ceil(phaiNop / 1000) * 1000; 
-                ketQuaLabel.textContent = 'Phải nộp'; /* <-- THAY ĐỔI: Bỏ dấu : */
+                ketQuaLabel.textContent = 'Phải nộp'; 
                 ketQuaValue.textContent = formatNumberHiddenK(lamTron); 
                 ketQuaBangChu.textContent = docso(lamTron) + " đồng"; 
             } else { 
                 const layVe = Math.abs(phaiNop); 
                 const khongLamTron = parseInt(layVe / 1000) * 1000; 
-                ketQuaLabel.textContent = 'Lấy về'; /* <-- THAY ĐỔI: Bỏ dấu : */
+                ketQuaLabel.textContent = 'Lấy về'; 
                 ketQuaValue.textContent = formatNumberHiddenK(khongLamTron); 
                 ketQuaBangChu.textContent = docso(khongLamTron) + " đồng"; 
             } 
@@ -1155,7 +1198,7 @@
                     showNotification("Vui lòng chọn ít nhất một file excel!", 'error'); 
                     return; 
                 } 
-                generateSummaryView(); // <-- Sẽ chạy với bộ lọc "Tất cả" mặc định
+                generateSummaryView(); 
                 DOM.homePage.style.display = 'none'; 
                 DOM.mainPage.style.display = 'block'; 
                 showSection('reportSection'); 
@@ -1176,12 +1219,9 @@
             DOM.btnClearManualReport.addEventListener('click', clearManualReportForm); 
             manualFormOrder.forEach(id => { const element = document.getElementById(id); if (element) { element.addEventListener('keydown', handleManualFormEnter); } });
             
-            // === THAY ĐỔI: Gán sự kiện cho nút "Lưu ảnh" ===
             DOM.btnSaveSummary.addEventListener('click', () => saveElementAsImage('#summarySection', 'Báo-cáo-Tổng-kết.png', DOM.btnSaveSummary));
             
             DOM.btnCopySummary.addEventListener('click', () => copyElementAsImage('#summarySection', 'Copy ảnh tổng kết thành công!', DOM.btnCopySummary));
-            
-            /* XÓA BỎ: btnToggleSummaryView */
             
             DOM.btnCopyReport.addEventListener('click', () => copyElementAsImage('#reportContainer', 'Copy ảnh báo cáo thành công!', DOM.btnCopyReport));
             DOM.toggleChoicesBtn.addEventListener('click', toggleActionChoices);
@@ -1202,13 +1242,9 @@
             DOM.reloadFile2.addEventListener('change', (e) => handleFile(e.target.files[0], 2, 'reloadFile2'));
             DOM.btnReloadSubmit.addEventListener('click', submitReload);
 
-            // === THAY ĐỔI: Sự kiện cho Định nghĩa Vùng & Mật khẩu ===
-            DOM.btnSaveRegions.addEventListener('click', handleRegionButtonPress); // <-- THAY ĐỔI
-            DOM.regionSelect.addEventListener('change', generateSummaryView); // Tự động lọc khi chọn
-            DOM.btnClearSummaryFilter.addEventListener('click', () => {
-                DOM.regionSelect.value = 'all';
-                generateSummaryView(); // Chạy lại với bộ lọc rỗng
-            });
+            // === Sự kiện cho Định nghĩa Vùng & Mật khẩu ===
+            DOM.btnSaveRegions.addEventListener('click', handleRegionButtonPress); 
+            DOM.regionSelect.addEventListener('change', generateSummaryView); 
             
             // Listener cho modal mật khẩu
             DOM.closePasswordModalBtn.addEventListener('click', hidePasswordModal);
@@ -1217,59 +1253,71 @@
             DOM.btnSubmitPassword.addEventListener('click', checkPassword);
             DOM.passwordInput.addEventListener('keydown', (e) => { 
                 if (e.key === 'Enter') { 
-                    e.preventDefault(); // Ngăn hành vi mặc định của Enter (nếu có)
+                    e.preventDefault(); 
                     checkPassword(); 
                 } 
             });
-            // === KẾT THÚC THAY ĐỔI ===
 
-
-            // === THÊM MỚI: Sự kiện cho nút cuộn lên đầu ===
+            // === Sự kiện cho nút cuộn lên/xuống ===
             DOM.scrollToTopBtn.addEventListener('click', () => {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
-            // === THÊM MỚI: Sự kiện cho nút cuộn xuống dưới ===
             DOM.scrollToBottomBtn.addEventListener('click', () => {
                 window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' });
             });
 
             window.addEventListener('scroll', handleScrollButtonVisibility);
-            // === KẾT THÚC THÊM MỚI ===
 
-            // === THÊM MỚI: Tải định nghĩa vùng đã lưu ===
             loadSavedRegions();
-            // === KẾT THÚC THÊM MỚI ===
 
-            // === THÊM MỚI: Sự kiện cho bộ lọc doanh số ===
-            DOM.btnApplyRevenueFilter.addEventListener('click', generateSummaryView);
+            // === Sự kiện cho bộ lọc doanh số (Tự động lọc) ===
+            DOM.sortSelect.addEventListener('change', generateSummaryView); 
+            
+            DOM.minRevenueInput.addEventListener('keydown', (e) => { 
+                if (e.key === 'Enter') {
+                    e.preventDefault(); 
+                    DOM.maxRevenueInput.focus(); 
+                } 
+            });
+            DOM.minRevenueInput.addEventListener('blur', generateSummaryView); 
+
+            DOM.maxRevenueInput.addEventListener('keydown', (e) => { 
+                if (e.key === 'Enter') {
+                    e.preventDefault(); 
+                    e.target.blur(); 
+                } 
+            });
+            DOM.maxRevenueInput.addEventListener('blur', generateSummaryView); 
+            
+            // === ĐÃ CẬP NHẬT: Thêm thao tác đặt lại 'Chọn Đơn vị' khi ấn 'Về mặc định' ===
             DOM.btnClearRevenueFilter.addEventListener('click', () => {
                 DOM.sortSelect.value = 'default';
                 DOM.minRevenueInput.value = '';
-                if(DOM.minRevenueInput.dataset) DOM.minRevenueInput.dataset.value = ''; // Xóa data-value
+                if(DOM.minRevenueInput.dataset) DOM.minRevenueInput.dataset.value = ''; 
                 DOM.maxRevenueInput.value = '';
-                if(DOM.maxRevenueInput.dataset) DOM.maxRevenueInput.dataset.value = ''; // Xóa data-value
+                if(DOM.maxRevenueInput.dataset) DOM.maxRevenueInput.dataset.value = ''; 
+                
+                // THAO TÁC MỚI
+                DOM.regionSelect.value = 'all';
+                
                 generateSummaryView();
             });
-            // Thêm Enter key cho input (chú ý: class 'manual-currency' đã xử lý format)
-            DOM.minRevenueInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') DOM.btnApplyRevenueFilter.click(); });
-            DOM.maxRevenueInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') DOM.btnApplyRevenueFilter.click(); });
-            // === KẾT THÚC THÊM MỚI ===
 
-            loopLogoAnimation(); // Bắt đầu animation logo lần đầu tiên
+            loopLogoAnimation(); 
         }
         
         // --- LOGIC ANIMATION LOGO MỚI ---
         function getRandomColor() {
-            const h = Math.floor(Math.random() * 360); // Hue (0-359)
-            const s = Math.floor(Math.random() * 30) + 70; // Saturation (70-100)
-            const l = Math.floor(Math.random() * 20) + 40; // Lightness (40-60)
+            const h = Math.floor(Math.random() * 360); 
+            const s = Math.floor(Math.random() * 30) + 70; 
+            const l = Math.floor(Math.random() * 20) + 40; 
             return `hsl(${h}, ${s}%, ${l}%)`;
         }
 
         async function loopLogoAnimation() {
             try {
                 const spans = document.querySelectorAll('.simple-animated-logo span');
-                if (spans.length === 0) return; // Dừng nếu không tìm thấy logo
+                if (spans.length === 0) return; 
 
                 const chars = Array.from(spans);
                 const delay = (ms) => new Promise(res => setTimeout(res, ms));
@@ -1278,11 +1326,11 @@
                 for (let i = 0; i < chars.length; i++) {
                     chars[i].style.opacity = '1';
                     chars[i].style.transform = 'translateY(0)';
-                    await delay(150); // Delay giữa các ký tự
+                    await delay(150); 
                 }
                 
                 // Phase 2: Đợi
-                await delay(3000); // Giữ 3 giây
+                await delay(3000); 
 
                 // Phase 3: Fade Out (cùng lúc)
                 chars.forEach(span => {
@@ -1291,7 +1339,7 @@
                 });
 
                 // Đợi fade out hoàn tất
-                await delay(600); // 0.6s (thời gian transition + 0.1s đệm)
+                await delay(600); 
 
                 // Phase 4: Đổi màu
                 const newColor = getRandomColor();
@@ -1300,7 +1348,7 @@
                 });
                 
                 // Lặp lại
-                setTimeout(loopLogoAnimation, 100); // Đợi 1 chút trước khi lặp lại
+                setTimeout(loopLogoAnimation, 100); 
 
             } catch (error) {
                 console.error("Lỗi animation logo:", error);
@@ -1308,9 +1356,6 @@
         }
         // --- KẾT THÚC LOGIC LOGO ---
         
-        /* XÓA BỎ: Hàm toggleSummaryViewMode */
-        
-        // === THÊM MỚI: Hàm xử lý hiển thị nút cuộn lên đầu ===
         function handleScrollButtonVisibility() {
             const scrollTop = window.scrollY || document.documentElement.scrollTop;
             const scrollHeight = document.documentElement.scrollHeight;
@@ -1331,7 +1376,6 @@
                 DOM.scrollToBottomBtn.classList.remove('show');
             }
         }
-        // === KẾT THÚC THÊM MỚI ===
 
         function createDetailedReport() { 
             hideManualInputModal(); 
@@ -1378,7 +1422,7 @@
                  showNotification("Bạn chưa chọn file Excel nào để nạp.", 'error');
                  return;
             }
-            generateSummaryView(); // <-- Sẽ chạy với bộ lọc "Tất cả" mặc định
+            generateSummaryView(); 
             DOM.reportContainer.innerHTML = '';
             DOM.actionButtonContainer.style.display = 'none';
             DOM.soSoInput.value = '';
@@ -1410,25 +1454,20 @@
             
             [DOM.navSummary, DOM.navReport, DOM.navSell, DOM.navReload].forEach(b => b.classList.remove('active')); 
             
-            // Tìm nút nav tương ứng
             let activeBtn;
             if (sectionId === 'summarySection') activeBtn = DOM.navSummary;
             else if (sectionId === 'reportSection') activeBtn = DOM.navReport;
             else if (sectionId === 'sellSection') activeBtn = DOM.navSell;
-            // Không làm active nút "Nạp lại"
             
             if(activeBtn) activeBtn.classList.add('active'); 
-            else DOM.navSummary.classList.add('active'); // Mặc định
+            else DOM.navSummary.classList.add('active'); 
 
-            // === THÊM MỚI: Cập nhật hiển thị nút cuộn lên đầu ===
             if (sectionId !== 'summarySection') {
                 DOM.scrollToTopBtn.classList.remove('show');
-                DOM.scrollToBottomBtn.classList.remove('show'); // <-- THÊM MỚI
+                DOM.scrollToBottomBtn.classList.remove('show'); 
             } else {
-                // Kiểm tra ngay lập tức xem có nên hiển thị nút không
                 handleScrollButtonVisibility();
             }
-            // === KẾT THÚC THÊM MỚI ===
         }
         function toggleActionChoices() { if (DOM.toggleChoicesBtn.textContent.includes('Thêm')) { DOM.actionChoices.style.display = 'grid'; DOM.toggleChoicesBtn.textContent = 'Xoá hết Thưởng/Nợ'; DOM.toggleChoicesBtn.className = 'danger'; } else { document.getElementById('extraBonusRow')?.remove(); document.getElementById('extraDebtRow')?.remove(); state.extraBonus = 0; state.extraDebt = 0; updateDetailedReportView(); DOM.actionChoices.style.display = 'none'; DOM.toggleChoicesBtn.textContent = 'Thêm tiền Thưởng/Nợ'; DOM.toggleChoicesBtn.className = 'secondary'; } updateActionButtons(); }
         function updateActionButtons() { DOM.actionChoices.innerHTML = `${document.getElementById('extraBonusRow') ? `<button class="danger" data-action="remove-bonus">Xoá Thưởng thêm</button>` : `<button data-action="add-bonus">Thêm tiền Thưởng</button>`}${document.getElementById('extraDebtRow') ? `<button class="danger" data-action="remove-debt">Xoá tiền Nợ</button>` : `<button data-action="add-debt">Thêm tiền Nợ</button>`}`; }
@@ -1454,9 +1493,9 @@
         }
         function addTicketToReport() { if (!state.currentSoSo) { showNotification("Vui lòng tạo hoặc mở một báo cáo chi tiết trước khi thêm vé!", 'error'); return; } const quantity = parseInt(DOM.sellQuantityInput.value, 10); if (!quantity || quantity <= 0) { showNotification("Vui lòng nhập số lượng vé hợp lệ!", 'error'); return; } let typeName = ''; const ticketType = document.querySelector('input[name="sellTicketType"]:checked').value; if (ticketType === 'xo-so') { typeName = 'Xổ số'; } else if (ticketType === 've-boc') { typeName = 'Vé bóc'; } else { typeName = DOM.customTicketName.value.trim(); if (!typeName) { showNotification('Vui lòng nhập tên loại hình!', 'error'); return; } } let price = 0; const priceType = document.querySelector('input[name="sellPrice"]:checked').value; if (priceType === 'custom-price') { price = parseFloat(DOM.customTicketPrice.value.replace(/\D/g, '')) || 0; if (price <= 0) { showNotification('Vui lòng nhập giá bán hợp lệ!', 'error'); return; } } else { price = parseFloat(priceType); } let commissionRate = 0; const commissionType = document.querySelector('input[name="commissionRate"]:checked').value; if (commissionType === 'custom-commission') { commissionRate = parseFloat(DOM.customCommissionPercent.value) / 100 || 0; if (commissionRate <= 0) { showNotification('Vui lòng nhập % hoa hồng hợp lệ!', 'error'); return; } } else { commissionRate = parseFloat(commissionType); } const doanhThu = quantity * price; const hoaHong = doanhThu * commissionRate; const formattedName = `${typeName} (${(price / 1000).toLocaleString('vi-VN')}k) [${quantity} vé]`; const newTicket = { id: Date.now(), doanhThu, hoaHong, name: formattedName }; state.addedTickets.push(newTicket); const newRow = document.createElement('tr'); newRow.className = 'added-ticket-row'; newRow.dataset.ticketId = newTicket.id; newRow.innerHTML = `<td>${newTicket.name}</td><td>${formatNumberHiddenK(doanhThu)}</td><td>${formatCommissionCellHiddenK(doanhThu, hoaHong)}</td>`; const tongCongRow = document.getElementById('tongCongRow'); if (!tongCongRow) { showNotification('Lỗi: Không tìm thấy bảng báo cáo để thêm vé.', 'error'); return; } tongCongRow.parentNode.insertBefore(newRow, tongCongRow); updateDetailedReportView(); DOM.sellQuantityInput.value = ''; newRow.scrollIntoView({ behavior: 'smooth', block: 'center' }); showSection('reportSection'); showNotification('Đã thêm vé vào báo cáo!', 'success'); }
         
-        // === THÊM MỚI: Các hàm quản lý khóa mật khẩu ===
+        // === Các hàm quản lý khóa mật khẩu ===
         function lockRegions() {
-            DOM.regionDefinitionsInput.disabled = true;
+            DOM.regionLockContainer.classList.add('locked'); 
             DOM.btnSaveRegions.textContent = 'Mở khoá Định nghĩa';
             DOM.btnSaveRegions.classList.remove('success');
             DOM.btnSaveRegions.classList.add('warning');
@@ -1464,7 +1503,7 @@
         }
 
         function unlockRegions() {
-            DOM.regionDefinitionsInput.disabled = false;
+            DOM.regionLockContainer.classList.remove('locked'); 
             DOM.btnSaveRegions.textContent = 'Lưu Định nghĩa';
             DOM.btnSaveRegions.classList.remove('warning');
             DOM.btnSaveRegions.classList.add('success');
@@ -1484,7 +1523,6 @@
 
         function checkPassword() {
             const pass = DOM.passwordInput.value;
-            // === THAY ĐỔI: Mật khẩu là "admin" ===
             if (pass === 'admin') {
                 hidePasswordModal();
                 unlockRegions();
@@ -1500,38 +1538,31 @@
             if (isRegionLocked) {
                 showPasswordModal();
             } else {
-                // Đây là hành động "Lưu"
                 parseAndSaveRegions(false); 
             }
         }
-        // === KẾT THÚC THÊM MỚI ===
 
-        // === THAY ĐỔI: Hàm tải định nghĩa vùng từ localStorage ===
         function loadSavedRegions() {
             try {
                 const savedDefinitions = localStorage.getItem('zengAppRegionDefinitions');
-                // === THAY ĐỔI: Kiểm tra nếu có dữ liệu thì mới khoá ===
                 if (savedDefinitions && savedDefinitions.trim() !== '') { 
                     DOM.regionDefinitionsInput.value = savedDefinitions;
-                    parseAndSaveRegions(true); // true = silent mode (không hiển thị thông báo)
-                    lockRegions(); // <-- Khoá lại khi tải
+                    parseAndSaveRegions(true); 
+                    lockRegions(); 
                 } else {
-                    unlockRegions(); // <-- Mở nếu không có gì
+                    unlockRegions(); 
                 }
             } catch (error) {
                 console.error("Lỗi khi tải từ localStorage:", error);
                 showNotification('Không thể tải định nghĩa đã lưu.', 'error');
-                unlockRegions(); // Mở khoá nếu có lỗi
+                unlockRegions(); 
             }
         }
-        // === KẾT THÚC THAY ĐỔI ===
 
-        // === THAY ĐỔI: Hàm lưu và phân tích Định nghĩa Vùng (thêm silent và localStorage) ===
         function parseAndSaveRegions(silent = false) {
             const text = DOM.regionDefinitionsInput.value;
-            regionDefinitions = {}; // Xóa định nghĩa cũ
+            regionDefinitions = {}; 
             
-            // Xóa các option cũ (giữ lại option "Tất cả")
             while (DOM.regionSelect.options.length > 1) {
                 DOM.regionSelect.remove(1);
             }
@@ -1541,7 +1572,7 @@
 
             lines.forEach(line => {
                 const colonIndex = line.indexOf(':');
-                if (colonIndex > 0) { // Phải có dấu : và tên vùng không được rỗng
+                if (colonIndex > 0) { 
                     const name = line.substring(0, colonIndex).trim();
                     const rulesString = line.substring(colonIndex + 1).trim();
                     
@@ -1550,7 +1581,6 @@
                         if (parsedRules) {
                             regionDefinitions[name] = parsedRules;
                             
-                            // Thêm vào dropdown
                             const option = document.createElement('option');
                             option.value = name;
                             option.textContent = name;
@@ -1561,7 +1591,6 @@
                 }
             });
 
-            // === THÊM MỚI: Lưu vào localStorage ===
             try {
                 localStorage.setItem('zengAppRegionDefinitions', text);
             } catch (error) {
@@ -1569,30 +1598,25 @@
                 if (!silent) {
                     showNotification('Không thể lưu định nghĩa vĩnh viễn (lỗi trình duyệt).', 'error');
                 }
-                return; // Dừng nếu không lưu được
+                return; 
             }
-            // === KẾT THÚC THÊM MỚI ===
 
-            if (!silent) { // Chỉ hiển thị thông báo nếu không ở chế độ 'silent'
+            if (!silent) { 
                 if (regionsAdded > 0) {
                     showNotification(`Đã lưu thành công ${regionsAdded} vùng.`, 'success');
                 } else {
                     showNotification('Không tìm thấy định nghĩa vùng hợp lệ.', 'info');
                 }
                 
-                // === THÊM MỚI: Tự động khoá lại sau khi lưu ===
                 if (text.trim() !== '') {
                     lockRegions();
                 } else {
-                    unlockRegions(); // Nếu lưu rỗng thì mở khoá
+                    unlockRegions(); 
                 }
             }
         }
-        // === KẾT THÚC THAY ĐỔI ===
 
         // --- UTILITY FUNCTIONS ---
-
-        // === HÀM MỚI: Để lưu ảnh về máy ===
         async function saveElementAsImage(selector, filename, buttonElement = null) {
             const element = document.querySelector(selector);
             if (!element || !element.innerHTML.trim()) {
@@ -1603,22 +1627,19 @@
             const originalButtonText = buttonElement ? buttonElement.textContent : '';
             if (buttonElement) buttonElement.textContent = 'Đang tạo ảnh...';
 
-            // Ẩn các nút điều khiển
             const elementsToHideTemporarily = [];
             const actions = element.querySelector('.summary-actions'); 
-            const filterControls = element.querySelector('.controls-panel'); // <-- THÊM MỚI: Ẩn cả bộ lọc
+            const filterControls = element.querySelector('.controls-panel'); 
             const reportActions = document.getElementById('actionButtonContainer'); 
             if (actions) elementsToHideTemporarily.push(actions);
-            if (filterControls) elementsToHideTemporarily.push(filterControls); // <-- THÊM MỚI
+            if (filterControls) elementsToHideTemporarily.push(filterControls); 
             if (reportActions && element === DOM.reportContainer) elementsToHideTemporarily.push(reportActions);
             
-            // === CẬP NHẬT: Dùng display: none thay vì visibility: hidden ===
             elementsToHideTemporarily.forEach(el => el.style.display = 'none');
             
             const copyright = document.getElementById('copyrightInReport');
             if (copyright && element === DOM.reportContainer) copyright.style.display = 'block'; 
 
-            // === CẬP NHẬT: Xử lý chụp nội dung cuộn (Logic mới) ===
             let mainPage, tableContainer, table, summarySectionEl;
             let originalPageMaxWidth, originalSummarySectionWidth, originalTableContainerWidth, originalTableContainerOverflow;
 
@@ -1635,17 +1656,14 @@
                     originalTableContainerOverflow = tableContainer.style.overflowX;
 
                     mainPage.style.maxWidth = 'none';
-                    const scrollW = table.scrollWidth + 2; // +2px buffer
+                    const scrollW = table.scrollWidth + 2; 
                     
                     summarySectionEl.style.width = `${scrollW}px`;
                     tableContainer.style.width = `${scrollW}px`;
                     tableContainer.style.overflowX = 'visible';
                 }
             }
-            // === KẾT THÚC CẬP NHẬT ===
 
-
-            // === CẬP NHẬT: Thêm setTimeout để chờ trình duyệt vẽ lại ===
             setTimeout(async () => {
                 try {
                     const canvas = await html2canvas(element, { backgroundColor: "#ffffff", scale: 2 });
@@ -1669,21 +1687,17 @@
                     showNotification('Đã xảy ra lỗi khi tạo ảnh.', 'error');
                     if (buttonElement) buttonElement.textContent = originalButtonText;
                 } finally {
-                    // Hiển thị lại các nút đã ẩn
                     if (copyright) copyright.style.display = 'none';
-                    // === CẬP NHẬT: Khôi phục display ===
                     elementsToHideTemporarily.forEach(el => el.style.display = ''); 
 
-                    // === CẬP NHẬT: Khôi phục cài đặt cuộn (bên trong finally) ===
                     if (mainPage && summarySectionEl && tableContainer) {
                         mainPage.style.maxWidth = originalPageMaxWidth;
                         summarySectionEl.style.width = originalSummarySectionWidth;
                         tableContainer.style.width = originalTableContainerWidth;
                         tableContainer.style.overflowX = originalTableContainerOverflow;
                     }
-                    // === KẾT THÚC CẬP NHẬT ===
                 }
-            }, 50); // <-- Đợi 50ms
+            }, 50); 
         }
         
         async function copyElementAsImage(selector, message, buttonElement = null) {
@@ -1693,19 +1707,17 @@
             if (buttonElement) buttonElement.textContent = 'Đang tạo ảnh...';
             const elementsToHideTemporarily = [];
             const actions = element.querySelector('.summary-actions'); 
-            const filterControls = element.querySelector('.controls-panel'); // <-- THÊM MỚI: Ẩn cả bộ lọc
+            const filterControls = element.querySelector('.controls-panel'); 
             const reportActions = document.getElementById('actionButtonContainer'); 
             if (actions) elementsToHideTemporarily.push(actions);
-            if (filterControls) elementsToHideTemporarily.push(filterControls); // <-- THÊM MỚI
+            if (filterControls) elementsToHideTemporarily.push(filterControls); 
             if (reportActions && element === DOM.reportContainer) elementsToHideTemporarily.push(reportActions);
 
-            // === CẬP NHẬT: Dùng display: none thay vì visibility: hidden ===
             elementsToHideTemporarily.forEach(el => el.style.display = 'none');
             
             const copyright = document.getElementById('copyrightInReport');
             if (copyright && element === DOM.reportContainer) copyright.style.display = 'block'; 
 
-            // === CẬP NHẬT: Xử lý chụp nội dung cuộn (Logic mới) ===
             let mainPage, tableContainer, table, summarySectionEl;
             let originalPageMaxWidth, originalSummarySectionWidth, originalTableContainerWidth, originalTableContainerOverflow;
 
@@ -1722,16 +1734,14 @@
                     originalTableContainerOverflow = tableContainer.style.overflowX;
 
                     mainPage.style.maxWidth = 'none';
-                    const scrollW = table.scrollWidth + 2; // +2px buffer
+                    const scrollW = table.scrollWidth + 2; 
                     
                     summarySectionEl.style.width = `${scrollW}px`;
                     tableContainer.style.width = `${scrollW}px`;
                     tableContainer.style.overflowX = 'visible';
                 }
             }
-            // === KẾT THÚC CẬP NHẬT ===
 
-            // === CẬP NHẬT: Thêm setTimeout để chờ trình duyệt vẽ lại ===
             setTimeout(async () => {
                 try {
                     const canvas = await html2canvas(element, { backgroundColor: "#ffffff", scale: 2 });
@@ -1759,22 +1769,18 @@
                     if (buttonElement) buttonElement.textContent = originalButtonText;
                 } finally {
                     if (copyright) copyright.style.display = 'none';
-                    // === CẬP NHẬT: Khôi phục display ===
                     elementsToHideTemporarily.forEach(el => el.style.display = ''); 
 
-                    // === CẬP NHẬT: Khôi phục cài đặt cuộn (bên trong finally) ===
                     if (mainPage && summarySectionEl && tableContainer) {
                         mainPage.style.maxWidth = originalPageMaxWidth;
                         summarySectionEl.style.width = originalSummarySectionWidth;
                         tableContainer.style.width = originalTableContainerWidth;
                         tableContainer.style.overflowX = originalTableContainerOverflow;
                     }
-                    // === KẾT THÚC CẬP NHẬT ===
                 }
-            }, 50); // <-- Đợi 50ms
+            }, 50); 
         }
         
-        // === THÊM MỚI: Hàm format số đầy đủ ===
         function formatNumberFull(num) { 
             num = parseFloat(num); 
             if (isNaN(num) || num === 0) return "0"; 
@@ -1784,22 +1790,19 @@
         function formatNumberHiddenK(num) { num = parseFloat(num); if (isNaN(num) || num === 0 || Math.abs(num) < 1000) return "0"; return parseInt(num / 1000).toLocaleString("vi-VN"); }
         function formatCommissionCellHiddenK(revenue, commission) { revenue = parseFloat(revenue); commission = parseFloat(commission); if (!revenue || revenue === 0 || isNaN(revenue) || isNaN(commission)) return formatNumberHiddenK(commission); const percentage = Math.round((commission / revenue) * 100); return `<i style="color: #E57373; font-weight: normal;">(${percentage}%)</i> ${formatNumberHiddenK(commission)}`; }
         
-        // === THÊM MỚI: Hàm xử lý lọc ===
         function parseFilterString(filterString) {
             if (!filterString || filterString.trim() === '') {
-                return null; // Không có bộ lọc
+                return null; 
             }
 
             const rules = [];
-            const parts = filterString.split('+'); // Tách bằng dấu +
+            const parts = filterString.split('+'); 
             
             parts.forEach(part => {
                 part = part.trim();
                 if (!part) return;
 
-                // === THAY ĐỔI: Sử dụng '_' thay vì '.' ===
                 if (part.includes('_')) {
-                    // Đây là một khoảng, ví dụ: "550_599"
                     const range = part.split('_');
                     const min = parseInt(range[0], 10);
                     const max = parseInt(range[1], 10);
@@ -1807,7 +1810,6 @@
                         rules.push({ min, max });
                     }
                 } else {
-                    // Đây là một số đơn, ví dụ: "6999"
                     const num = parseInt(part, 10);
                     if (!isNaN(num)) {
                         rules.push({ min: num, max: num });
@@ -1820,26 +1822,23 @@
 
         function agentMatchesFilter(agentCode, filterRules) {
             if (!filterRules) {
-                return true; // Nếu không có quy tắc, tất cả đều khớp
+                return true; 
             }
 
-            // Lấy phần số của agentCode, ví dụ "550" từ "DL 550" hoặc "550"
             const numericMatch = String(agentCode).match(/\d+$/);
             if (!numericMatch) {
-                return false; // Mã đại lý không có số, không thể lọc
+                return false; 
             }
             const agentNum = parseInt(numericMatch[0], 10);
 
-            // Kiểm tra xem số đại lý có khớp với BẤT KỲ quy tắc nào không
             for (const rule of filterRules) {
                 if (agentNum >= rule.min && agentNum <= rule.max) {
-                    return true; // Khớp một quy tắc
+                    return true; 
                 }
             }
             
-            return false; // Không khớp quy tắc nào
+            return false; 
         }
-        // === KẾT THÚC THÊM MỚI ===
 
         function docso(numberStr) {
             const num = String(numberStr).replace(/[.,]/g, '');
