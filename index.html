@@ -256,6 +256,12 @@
         display: block !important;
     }
     /* --- END CSS MỚI --- */
+    
+    /* CSS cho icon mũi tên */
+    .filter-arrow {
+        font-weight: 700;
+        margin-left: 5px;
+    }
 
     .manual-grid { display: grid; grid-template-columns: auto 1fr; gap: 15px; align-items: center; }
     .manual-grid label { text-align: right; font-size: 15px; }
@@ -289,12 +295,12 @@
 
     /* === ĐÃ THAY ĐỔI: Vị trí cho nút cuộn lên/xuống === */
     #scrollToBottomBtn {
-        bottom: 20px; /* Chuyển xuống dưới cùng */
+        bottom: 20px; 
         top: auto;
     }
 
     #scrollToTopBtn {
-        top: 20px; /* Chuyển lên trên cùng */
+        top: 20px; 
         bottom: auto;
     }
     
@@ -361,22 +367,27 @@
             height: 100%; 
             justify-content: flex-start; 
         }
-
-        /* === Bố cục cho phần Chọn Đơn vị (đã chuyển xuống dưới) === */
+        
+        /* === ĐÃ CẬP NHẬT: Cân bằng các khối nhập liệu/select === */
+        /* Bố cục 2 cột lớn: [Lọc DSố] | [Chọn Đơn vị] */
         .revenue-filter-grid {
-            grid-template-columns: 1fr 1fr; 
+            display: grid;
+            grid-template-columns: 1.5fr 1fr; /* Cân đối hơn */
             gap: 15px;
             align-items: flex-start;
         }
         
-        /* Cột 1: Sắp xếp + Doanh số */
+        /* Cột trái: Sắp xếp + Doanh số (3 hàng) */
         .revenue-filter-col-left {
             display: grid;
+            /* Phân chia Sắp xếp và 2 ô Doanh số */
             grid-template-columns: 1fr 1fr 1fr; 
             gap: 15px;
+            /* Căn đều các ô nhập liệu/select */
+            align-items: flex-start;
         }
         
-        /* Cột 2: Chọn Đơn vị */
+        /* Cột phải: Chọn Đơn vị */
         .revenue-filter-col-right {
              display: grid;
              grid-template-rows: auto 1fr; 
@@ -563,12 +574,12 @@
                     </div>
                     
                     <div class="filter-column">
-                        <label for="minRevenueInput">Doanh số từ... trở lên:</label>
-                        <input type="text" id="minRevenueInput" class="manual-currency" inputmode="numeric" placeholder="Ví dụ: 100">
+                        <label for="minRevenueInput">Doanh số từ... trở lên: <span class="filter-arrow" style="color: var(--success-color);">&#9650;</span></label>
+                        <input type="text" id="minRevenueInput" class="manual-currency" inputmode="numeric" placeholder="Ví dụ: 300">
                     </div>
                     
                     <div class="filter-column">
-                        <label for="maxRevenueInput">Doanh số từ... trở xuống:</label>
+                        <label for="maxRevenueInput">Doanh số từ... trở xuống: <span class="filter-arrow" style="color: var(--danger-color);">&#9660;</span></label>
                         <input type="text" id="maxRevenueInput" class="manual-currency" inputmode="numeric" placeholder="Để trống = Tối đa">
                     </div>
                 </div>
@@ -973,7 +984,7 @@
                 group.groupTotalThuong += agentDetails.thuong; 
             }); 
             
-            // === ĐÃ CẬP NHẬT: Áp dụng BỘ LỌC DOANH SỐ theo TỔNG NHÓM ===
+            // === Áp dụng BỘ LỌC DOANH SỐ theo TỔNG NHÓM ===
             const finalGroupedData = new Map();
             if (revenueFilter && (revenueFilter.min !== 0 || revenueFilter.max !== Infinity)) {
                 const { min, max } = revenueFilter;
@@ -1192,6 +1203,25 @@
         }
 
         // ===== UI EVENT HANDLERS & CONTROLLERS =====
+        function updateFilterStatus() {
+            const isDefaultSort = DOM.sortSelect.value === 'default';
+            // Lấy giá trị data-value, nếu rỗng hoặc undefined thì coi là 0 (mặc định)
+            const isDefaultMinRevenue = !DOM.minRevenueInput.dataset.value || parseFloat(DOM.minRevenueInput.dataset.value) === 0;
+            const isDefaultMaxRevenue = !DOM.maxRevenueInput.dataset.value || parseFloat(DOM.maxRevenueInput.dataset.value) === 0;
+            const isDefaultRegion = DOM.regionSelect.value === 'all';
+
+            const isDefault = isDefaultSort && isDefaultMinRevenue && isDefaultMaxRevenue && isDefaultRegion;
+
+            const btn = DOM.btnClearRevenueFilter;
+            if (isDefault) {
+                btn.classList.remove('danger');
+                btn.classList.add('secondary');
+            } else {
+                btn.classList.remove('secondary');
+                btn.classList.add('danger');
+            }
+        }
+        
         function initializeApp() {
             DOM.btnLoadData.addEventListener('click', () => { 
                 if (excelData1.length === 0 && excelData2.length === 0) { 
@@ -1211,7 +1241,16 @@
             DOM.excelFile2.addEventListener('change', (e) => handleFile(e.target.files[0], 2, 'excelFile2'));
             DOM.btnCreateReport.addEventListener('click', createDetailedReport);
             DOM.soSoInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.target.blur(); createDetailedReport(); } });
-            document.querySelectorAll('.manual-currency').forEach(input => { input.addEventListener('input', (e) => { const value = e.target.value.replace(/\D/g, ''); e.target.dataset.value = value; e.target.value = value ? parseInt(value, 10).toLocaleString('vi-VN') : ''; }); });
+            
+            // Lắng nghe sự kiện cho các input tiền tệ
+            document.querySelectorAll('.manual-currency').forEach(input => { 
+                input.addEventListener('input', (e) => { 
+                    const value = e.target.value.replace(/\D/g, ''); 
+                    e.target.dataset.value = value; 
+                    e.target.value = value ? parseInt(value, 10).toLocaleString('vi-VN') : ''; 
+                    updateFilterStatus(); // Cập nhật trạng thái nút
+                }); 
+            });
             
             DOM.btnShowManualReport.addEventListener('click', showManualInputModal);
             DOM.btnShowManualReport_inline.addEventListener('click', showManualInputModal);
@@ -1244,7 +1283,10 @@
 
             // === Sự kiện cho Định nghĩa Vùng & Mật khẩu ===
             DOM.btnSaveRegions.addEventListener('click', handleRegionButtonPress); 
-            DOM.regionSelect.addEventListener('change', generateSummaryView); 
+            DOM.regionSelect.addEventListener('change', () => {
+                generateSummaryView();
+                updateFilterStatus(); // Cập nhật trạng thái nút
+            }); 
             
             // Listener cho modal mật khẩu
             DOM.closePasswordModalBtn.addEventListener('click', hidePasswordModal);
@@ -1271,7 +1313,10 @@
             loadSavedRegions();
 
             // === Sự kiện cho bộ lọc doanh số (Tự động lọc) ===
-            DOM.sortSelect.addEventListener('change', generateSummaryView); 
+            DOM.sortSelect.addEventListener('change', () => {
+                generateSummaryView();
+                updateFilterStatus(); // Cập nhật trạng thái nút
+            }); 
             
             DOM.minRevenueInput.addEventListener('keydown', (e) => { 
                 if (e.key === 'Enter') {
@@ -1279,7 +1324,10 @@
                     DOM.maxRevenueInput.focus(); 
                 } 
             });
-            DOM.minRevenueInput.addEventListener('blur', generateSummaryView); 
+            DOM.minRevenueInput.addEventListener('blur', () => {
+                generateSummaryView();
+                updateFilterStatus(); // Cập nhật trạng thái nút
+            }); 
 
             DOM.maxRevenueInput.addEventListener('keydown', (e) => { 
                 if (e.key === 'Enter') {
@@ -1287,7 +1335,10 @@
                     e.target.blur(); 
                 } 
             });
-            DOM.maxRevenueInput.addEventListener('blur', generateSummaryView); 
+            DOM.maxRevenueInput.addEventListener('blur', () => {
+                generateSummaryView();
+                updateFilterStatus(); // Cập nhật trạng thái nút
+            }); 
             
             // === ĐÃ CẬP NHẬT: Thêm thao tác đặt lại 'Chọn Đơn vị' khi ấn 'Về mặc định' ===
             DOM.btnClearRevenueFilter.addEventListener('click', () => {
@@ -1301,8 +1352,11 @@
                 DOM.regionSelect.value = 'all';
                 
                 generateSummaryView();
+                updateFilterStatus(); // Cập nhật trạng thái nút về mặc định
             });
 
+            // Khởi tạo trạng thái nút lần đầu
+            updateFilterStatus();
             loopLogoAnimation(); 
         }
         
@@ -1614,6 +1668,7 @@
                     unlockRegions(); 
                 }
             }
+            updateFilterStatus(); // Cập nhật trạng thái nút sau khi lưu
         }
 
         // --- UTILITY FUNCTIONS ---
