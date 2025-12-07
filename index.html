@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Player Tool</title>
+    <title>Web Player Tool Nâng Cấp</title>
     
     <style>
         body {
@@ -23,6 +23,7 @@
             display: block;
             width: 100%;
             box-sizing: border-box;
+            margin-bottom: 15px;
         }
         #playlist {
             list-style: none;
@@ -51,143 +52,256 @@
             color: white;
             font-weight: bold;
         }
-        #audioPlayer {
-            width: 100%;
+        #playerContainer {
             margin-top: 15px;
+            position: relative;
         }
-        #currentTrack {
-            padding: 10px 0;
-            font-style: italic;
-            color: #555;
+        #playerContainer audio, #playerContainer video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        #controls button {
+            padding: 10px 15px;
+            margin: 5px;
+            cursor: pointer;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
         }
     </style>
 </head>
 <body>
-    <h1>🎧 Web Player Đơn Giản</h1>
+    <h1>🎬 Web Player Tool Nâng Cấp</h1>
 
     <input 
         type="file" 
         id="fileInput" 
-        accept="audio/*, video/*" 
+        accept="audio/*, video/*, .m3u" 
         multiple 
         webkitdirectory
     >
 
     <hr>
 
-    <h2>Danh sách phát</h2>
+    <h2>Trình phát</h2>
+    <div id="playerContainer">
+        </div>
+    <div id="controls">
+        <button id="prevBtn" disabled>⏮️ Bài trước</button>
+        <button id="nextBtn" disabled>⏭️ Bài tiếp theo</button>
+    </div>
     <p id="currentTrack">Chưa có bài nào đang phát.</p>
-    
-    <ul id="playlist">
-        <li id="empty-message">Vui lòng chọn **thư mục** hoặc **file nhạc/video** để thêm vào danh sách.</li>
-    </ul>
 
     <hr>
 
-    <h2>Trình phát</h2>
-    <audio id="audioPlayer" controls autoplay></audio>
+    <h2>Danh sách phát</h2>
+    <ul id="playlist">
+        <li id="empty-message">Vui lòng chọn **thư mục** hoặc **file .m3u** để thêm vào danh sách.</li>
+    </ul>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const fileInput = document.getElementById('fileInput');
-            const playlist = document.getElementById('playlist');
-            const audioPlayer = document.getElementById('audioPlayer');
+            const playlistElement = document.getElementById('playlist');
+            const playerContainer = document.getElementById('playerContainer');
             const currentTrackDisplay = document.getElementById('currentTrack');
-            const emptyMessage = document.getElementById('empty-message');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
 
-            let trackList = [];
+            let allFiles = {}; // Lưu trữ tất cả các File object trong thư mục đã chọn (key: relativePath)
+            let trackList = []; // Danh sách các bài hát sẽ được phát (theo thứ tự .m3u nếu có)
             let currentTrackIndex = -1;
+
+            // --- 0. Khởi tạo Trình phát (Audio/Video) ---
+            function createPlayerElement(isAudo = true) {
+                playerContainer.innerHTML = ''; // Xóa trình phát cũ
+                const player = isAudo ? document.createElement('audio') : document.createElement('video');
+                player.id = 'mediaPlayer';
+                player.controls = true;
+                player.autoplay = true;
+                
+                // Gắn sự kiện chuyển bài tự động
+                player.addEventListener('ended', playNextTrack);
+                
+                playerContainer.appendChild(player);
+                return player;
+            }
+            // Khởi tạo trình phát mặc định là Audio
+            let mediaPlayer = createPlayerElement(true);
 
             // --- 1. Xử lý khi người dùng chọn file/thư mục ---
             fileInput.addEventListener('change', (event) => {
                 const files = event.target.files;
                 if (files.length > 0) {
-                    // Reset danh sách cũ
-                    playlist.innerHTML = '';
-                    trackList = [];
-                    currentTrackIndex = -1;
+                    
+                    // 1.1. Reset và xây dựng lại allFiles
+                    allFiles = {};
+                    let m3uFile = null;
 
-                    // Lọc và thêm file hợp lệ
-                    for (let i = 0; i < files.length; i++) {
-                        const file = files[i];
-                        if (file.type.startsWith('audio/') || file.type.startsWith('video/')) {
-                            trackList.push(file);
-                            addTrackToPlaylist(file, trackList.length - 1);
+                    // Lọc file và lưu vào allFiles
+                    for (const file of files) {
+                        const relativePath = file.webkitRelativePath || file.name;
+                        allFiles[relativePath] = file;
+
+                        if (file.name.toLowerCase().endsWith('.m3u')) {
+                            // Ưu tiên sử dụng file .m3u đầu tiên được tìm thấy
+                            if (!m3uFile) m3uFile = file;
                         }
                     }
                     
-                    // Tự động phát bài đầu tiên nếu có
-                    if (trackList.length > 0) {
-                        playTrack(0);
+                    // 1.2. Xác định trackList
+                    if (m3uFile) {
+                        readM3U(m3uFile);
                     } else {
-                        playlist.innerHTML = '<li id="empty-message">Không tìm thấy file nhạc/video nào hợp lệ trong thư mục đã chọn.</li>';
+                        // Nếu không có M3U, tạo trackList từ tất cả các file media
+                        trackList = Object.keys(allFiles)
+                                        .filter(path => !path.toLowerCase().endsWith('.m3u') && 
+                                                        (allFiles[path].type.startsWith('audio/') || allFiles[path].type.startsWith('video/')))
+                                        .map(path => allFiles[path]);
+                        updatePlaylistUI();
+                        // Tự động phát bài đầu tiên
+                        if (trackList.length > 0) playTrack(0);
                     }
                 }
             });
 
-            // --- 2. Thêm bài hát vào danh sách hiển thị ---
-            function addTrackToPlaylist(file, index) {
-                const li = document.createElement('li');
-                
-                // Hiển thị đường dẫn tương đối nếu có (khi chọn thư mục)
-                const trackName = file.webkitRelativePath || file.name;
-                li.textContent = trackName; 
-                li.dataset.index = index; 
-                
-                li.addEventListener('click', () => {
-                    playTrack(index);
-                });
+            // --- 2. Đọc và xử lý file M3U ---
+            function readM3U(m3uFile) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const content = e.target.result;
+                    const lines = content.split('\n');
+                    
+                    trackList = [];
+                    // Lấy thư mục gốc (nơi chứa file .m3u)
+                    const m3uDir = m3uFile.webkitRelativePath ? m3uFile.webkitRelativePath.substring(0, m3uFile.webkitRelativePath.lastIndexOf('/')) : '';
 
-                playlist.appendChild(li);
+                    for (const line of lines) {
+                        // Bỏ qua dòng comment và dòng Extinf (mở rộng)
+                        if (line.trim() === '' || line.startsWith('#')) continue;
+
+                        let trackPath = line.trim();
+                        // Nếu đường dẫn tương đối (ví dụ: ../Nhac/file.mp3), thì cần giải quyết
+                        // Ở đây ta giả định các file trong m3u có đường dẫn tương đối so với thư mục gốc đã chọn.
+                        
+                        // Xây dựng đường dẫn tuyệt đối trong allFiles (key)
+                        let fullPathInFiles = trackPath;
+                        if (!trackPath.includes('/')) {
+                            // Giả định nếu không có thư mục con, thì file nằm cùng cấp với thư mục gốc
+                            fullPathInFiles = (m3uDir ? m3uDir + '/' : '') + trackPath;
+                        }
+                        
+                        // Tìm file trong danh sách allFiles đã thu thập
+                        const file = allFiles[fullPathInFiles] || allFiles[trackPath] || 
+                                     Object.values(allFiles).find(f => f.name.toLowerCase() === trackPath.substring(trackPath.lastIndexOf('/') + 1).toLowerCase());
+                        
+                        if (file) {
+                            trackList.push(file);
+                        }
+                    }
+
+                    updatePlaylistUI();
+                    if (trackList.length > 0) playTrack(0);
+                };
+                reader.readAsText(m3uFile);
             }
 
-            // --- 3. Hàm phát nhạc chính ---
+            // --- 3. Cập nhật giao diện Playlist ---
+            function updatePlaylistUI() {
+                playlistElement.innerHTML = '';
+                if (trackList.length === 0) {
+                    playlistElement.innerHTML = '<li id="empty-message">Không tìm thấy file nhạc/video hợp lệ.</li>';
+                    nextBtn.disabled = true;
+                    prevBtn.disabled = true;
+                    return;
+                }
+
+                trackList.forEach((file, index) => {
+                    const li = document.createElement('li');
+                    const trackName = file.webkitRelativePath || file.name;
+                    li.textContent = trackName; 
+                    li.dataset.index = index; 
+                    
+                    li.addEventListener('click', () => playTrack(index));
+                    playlistElement.appendChild(li);
+                });
+            }
+
+            // --- 4. Hàm phát nhạc/video chính ---
             function playTrack(index) {
                 if (index >= 0 && index < trackList.length) {
                     currentTrackIndex = index;
                     const file = trackList[index];
 
-                    // Tạo URL đối tượng cho file đã chọn
+                    // Xử lý Audio/Video
+                    const isVideo = file.type.startsWith('video/');
+                    const isAudio = file.type.startsWith('audio/');
+                    
+                    // Nếu loại file khác với trình phát hiện tại, tạo lại trình phát
+                    if ((isVideo && mediaPlayer.tagName !== 'VIDEO') || (isAudio && mediaPlayer.tagName !== 'AUDIO')) {
+                        mediaPlayer = createPlayerElement(isAudio);
+                    } else if (mediaPlayer.tagName !== 'AUDIO' && mediaPlayer.tagName !== 'VIDEO') {
+                        // Trường hợp đặc biệt khi mới load trang và chưa có trình phát
+                        mediaPlayer = createPlayerElement(isAudio);
+                    }
+                    
                     const fileURL = URL.createObjectURL(file);
                     
-                    // Thiết lập nguồn và bắt đầu phát
-                    audioPlayer.src = fileURL;
-                    audioPlayer.load();
-                    audioPlayer.play().catch(error => {
-                        console.error("Lỗi khi cố gắng phát nhạc:", error);
-                        currentTrackDisplay.textContent = `▶️ ${file.name} - (Click nút Play để bắt đầu)`;
+                    mediaPlayer.src = fileURL;
+                    mediaPlayer.load();
+                    mediaPlayer.play().catch(error => {
+                        console.error("Lỗi khi cố gắng phát:", error);
+                        currentTrackDisplay.innerHTML = `▶️ ${file.name} - (Click nút Play trên trình phát)`;
                     });
 
                     // Cập nhật thông tin và highlight
                     const trackNameDisplay = file.webkitRelativePath || file.name;
-                    currentTrackDisplay.innerHTML = `🎶 **Đang phát:** ${trackNameDisplay}`;
+                    currentTrackDisplay.innerHTML = `**${isVideo ? '📺 Đang phát Video:' : '🎶 Đang phát Nhạc:'}** ${trackNameDisplay}`;
                     highlightActiveTrack(index);
+                    updateControls();
                 }
             }
 
-            // --- 4. Tự động chuyển bài khi kết thúc ---
-            audioPlayer.addEventListener('ended', () => {
+            // --- 5. Điều khiển chuyển bài ---
+            function playNextTrack() {
                 if (currentTrackIndex < trackList.length - 1) {
-                    playTrack(currentTrackIndex + 1); // Phát bài tiếp theo
+                    playTrack(currentTrackIndex + 1);
                 } else {
-                    // Đã hết danh sách
                     currentTrackDisplay.innerHTML = "✅ **Danh sách phát đã hoàn thành.**";
-                    highlightActiveTrack(-1); // Bỏ highlight
+                    highlightActiveTrack(-1);
+                    updateControls();
                 }
-            });
+            }
 
-            // --- 5. Highlight bài đang phát ---
+            function playPrevTrack() {
+                if (currentTrackIndex > 0) {
+                    playTrack(currentTrackIndex - 1);
+                }
+            }
+
+            function updateControls() {
+                prevBtn.disabled = currentTrackIndex <= 0;
+                nextBtn.disabled = currentTrackIndex >= trackList.length - 1 || trackList.length === 0;
+            }
+            
+            // Gắn sự kiện cho nút điều khiển
+            nextBtn.addEventListener('click', playNextTrack);
+            prevBtn.addEventListener('click', playPrevTrack);
+
+
+            // --- 6. Highlight bài đang phát ---
             function highlightActiveTrack(index) {
-                const items = playlist.querySelectorAll('li');
+                const items = playlistElement.querySelectorAll('li');
                 items.forEach(item => {
                     item.classList.remove('active-track');
                 });
 
                 if (index !== -1) {
-                    const activeItem = playlist.querySelector(`li[data-index="${index}"]`);
+                    const activeItem = playlistElement.querySelector(`li[data-index="${index}"]`);
                     if (activeItem) {
                         activeItem.classList.add('active-track');
-                        // Cuộn đến bài đang phát
                         activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                     }
                 }
