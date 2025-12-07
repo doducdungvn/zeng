@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Player Tool Nâng Cấp</title>
+    <title>Web Player Toàn Diện</title>
     
     <style>
         body {
@@ -25,6 +25,7 @@
             box-sizing: border-box;
             margin-bottom: 15px;
         }
+        /* Playlist Styles */
         #playlist {
             list-style: none;
             padding: 0;
@@ -44,36 +45,108 @@
         #playlist li:last-child {
             border-bottom: none;
         }
-        #playlist li:hover {
-            background-color: #e9e9e9;
-        }
         .active-track {
             background-color: #007bff !important;
             color: white;
             font-weight: bold;
         }
+
+        /* Player Controls Styles */
         #playerContainer {
             margin-top: 15px;
-            position: relative;
         }
         #playerContainer audio, #playerContainer video {
             width: 100%;
             height: auto;
             display: block;
         }
-        #controls button {
+        #controls {
+            padding: 15px 0;
+            background-color: #e9ecef;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        #topControls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        #topControls button {
             padding: 10px 15px;
-            margin: 5px;
             cursor: pointer;
             background-color: #333;
             color: white;
             border: none;
             border-radius: 5px;
+            font-size: 16px;
+        }
+        #topControls button:disabled {
+            background-color: #999;
+        }
+        
+        /* Volume and Time Controls */
+        #volumeAndTimeControls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 15px;
+        }
+        #volumeControls {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        #volumeControls button {
+            background: none;
+            border: none;
+            color: #333;
+            cursor: pointer;
+            font-size: 20px;
+            padding: 0;
+        }
+        #volumeSlider {
+            width: 80px;
+        }
+        #currentVolume {
+            width: 35px;
+            text-align: right;
+            font-size: 0.9em;
+        }
+        #timeControls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-grow: 1;
+            padding: 0 15px;
+        }
+        #progressBar {
+            flex-grow: 1;
+            height: 8px;
+            cursor: pointer;
+        }
+        #timeDisplay {
+            font-size: 0.9em;
+        }
+        #currentTrack {
+            text-align: center;
+            padding: 10px;
+            font-style: italic;
+            color: #555;
+        }
+        #footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 0.8em;
+            color: #777;
+            padding-top: 10px;
+            border-top: 1px solid #ddd;
         }
     </style>
 </head>
 <body>
-    <h1>🎬 Web Player Tool Nâng Cấp</h1>
+    <h1>🎬 Web Player Toàn Diện</h1>
 
     <input 
         type="file" 
@@ -85,13 +158,31 @@
 
     <hr>
 
-    <h2>Trình phát</h2>
+    <h2>Trình phát & Điều khiển</h2>
     <div id="playerContainer">
         </div>
+    
     <div id="controls">
-        <button id="prevBtn" disabled>⏮️ Bài trước</button>
-        <button id="nextBtn" disabled>⏭️ Bài tiếp theo</button>
+        <div id="topControls">
+            <button id="prevBtn" disabled>⏮️</button>
+            <button id="playPauseBtn">▶️</button>
+            <button id="nextBtn" disabled>⏭️</button>
+        </div>
+
+        <div id="timeControls">
+            <span id="timeDisplay">0:00 / 0:00</span>
+            <input type="range" id="progressBar" min="0" max="0" step="0.1" value="0">
+        </div>
+
+        <div id="volumeAndTimeControls">
+            <div id="volumeControls">
+                <button id="muteBtn">🔊</button>
+                <input type="range" id="volumeSlider" min="0" max="1" step="0.05" value="1">
+                <span id="currentVolume">100%</span>
+            </div>
+        </div>
     </div>
+    
     <p id="currentTrack">Chưa có bài nào đang phát.</p>
 
     <hr>
@@ -101,73 +192,168 @@
         <li id="empty-message">Vui lòng chọn **thư mục** hoặc **file .m3u** để thêm vào danh sách.</li>
     </ul>
 
+    <div id="footer">
+        © 2025 ZENG FINANCE
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // --- UI Elements ---
             const fileInput = document.getElementById('fileInput');
             const playlistElement = document.getElementById('playlist');
             const playerContainer = document.getElementById('playerContainer');
             const currentTrackDisplay = document.getElementById('currentTrack');
             const prevBtn = document.getElementById('prevBtn');
             const nextBtn = document.getElementById('nextBtn');
+            const playPauseBtn = document.getElementById('playPauseBtn');
+            const volumeSlider = document.getElementById('volumeSlider');
+            const currentVolumeDisplay = document.getElementById('currentVolume');
+            const muteBtn = document.getElementById('muteBtn');
+            const progressBar = document.getElementById('progressBar');
+            const timeDisplay = document.getElementById('timeDisplay');
 
-            let allFiles = {}; // Lưu trữ tất cả các File object trong thư mục đã chọn (key: relativePath)
-            let trackList = []; // Danh sách các bài hát sẽ được phát (theo thứ tự .m3u nếu có)
+            // --- State Variables ---
+            let allFiles = {}; 
+            let trackList = [];
             let currentTrackIndex = -1;
+            let currentVolume = 1.0;
+            let isMuted = false;
+            let mediaPlayer = null;
+            let isDraggingSlider = false;
 
-            // --- 0. Khởi tạo Trình phát (Audio/Video) ---
-            function createPlayerElement(isAudo = true) {
-                playerContainer.innerHTML = ''; // Xóa trình phát cũ
-                const player = isAudo ? document.createElement('audio') : document.createElement('video');
+            // --- 0. Helper Functions ---
+            function formatTime(seconds) {
+                if (isNaN(seconds)) return '0:00';
+                const minutes = Math.floor(seconds / 60);
+                const remainingSeconds = Math.floor(seconds % 60);
+                return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+            }
+
+            function updateTimeDisplay(currentTime, duration) {
+                timeDisplay.textContent = `${formatTime(currentTime)} / ${formatTime(duration)}`;
+            }
+
+            // --- 1. Player Creation & Setup ---
+            function createPlayerElement(isAudio = true) {
+                playerContainer.innerHTML = ''; 
+                const player = isAudio ? document.createElement('audio') : document.createElement('video');
                 player.id = 'mediaPlayer';
-                player.controls = true;
+                player.controls = false; 
                 player.autoplay = true;
+                player.volume = currentVolume; 
+                player.muted = isMuted;
                 
-                // Gắn sự kiện chuyển bài tự động
+                // Gắn sự kiện
                 player.addEventListener('ended', playNextTrack);
+                player.addEventListener('volumechange', handleVolumeChange);
+                player.addEventListener('loadedmetadata', setupProgressBar);
+                player.addEventListener('timeupdate', updateProgressBar);
+                player.addEventListener('play', () => playPauseBtn.textContent = '⏸️');
+                player.addEventListener('pause', () => playPauseBtn.textContent = '▶️');
                 
                 playerContainer.appendChild(player);
                 return player;
             }
-            // Khởi tạo trình phát mặc định là Audio
-            let mediaPlayer = createPlayerElement(true);
 
-            // --- 1. Xử lý khi người dùng chọn file/thư mục ---
+            // --- 2. Volume and Mute Controls ---
+            function handleVolumeChange() {
+                if (mediaPlayer) {
+                    currentVolume = mediaPlayer.volume;
+                    isMuted = mediaPlayer.muted;
+                    volumeSlider.value = currentVolume;
+                    currentVolumeDisplay.textContent = `${Math.round(currentVolume * 100)}%`;
+                    muteBtn.textContent = isMuted ? '🔇' : '🔊';
+                }
+            }
+
+            volumeSlider.addEventListener('input', (event) => {
+                currentVolume = parseFloat(event.target.value);
+                currentVolumeDisplay.textContent = `${Math.round(currentVolume * 100)}%`;
+                if (mediaPlayer) {
+                    mediaPlayer.volume = currentVolume;
+                    if (currentVolume > 0 && mediaPlayer.muted) {
+                        mediaPlayer.muted = false;
+                        isMuted = false;
+                        muteBtn.textContent = '🔊';
+                    } else if (currentVolume === 0 && !mediaPlayer.muted) {
+                        mediaPlayer.muted = true;
+                        isMuted = true;
+                        muteBtn.textContent = '🔇';
+                    }
+                }
+            });
+
+            muteBtn.addEventListener('click', () => {
+                if (!mediaPlayer) return;
+                isMuted = !isMuted;
+                mediaPlayer.muted = isMuted;
+                muteBtn.textContent = isMuted ? '🔇' : '🔊';
+            });
+
+            // --- 3. Playback Controls (Play/Pause, Progress Bar) ---
+            playPauseBtn.addEventListener('click', () => {
+                if (!mediaPlayer) return;
+                if (mediaPlayer.paused) {
+                    mediaPlayer.play();
+                } else {
+                    mediaPlayer.pause();
+                }
+            });
+
+            function setupProgressBar() {
+                if (!mediaPlayer) return;
+                progressBar.max = mediaPlayer.duration;
+                updateTimeDisplay(mediaPlayer.currentTime, mediaPlayer.duration);
+            }
+
+            function updateProgressBar() {
+                if (!mediaPlayer || isDraggingSlider) return;
+                progressBar.value = mediaPlayer.currentTime;
+                updateTimeDisplay(mediaPlayer.currentTime, mediaPlayer.duration);
+            }
+
+            progressBar.addEventListener('mousedown', () => isDraggingSlider = true);
+            progressBar.addEventListener('mouseup', () => {
+                isDraggingSlider = false;
+                if (mediaPlayer) {
+                    mediaPlayer.currentTime = parseFloat(progressBar.value);
+                }
+            });
+            progressBar.addEventListener('input', () => {
+                if (mediaPlayer) {
+                    updateTimeDisplay(parseFloat(progressBar.value), mediaPlayer.duration);
+                }
+            });
+            
+            // --- 4. File/Folder Loading ---
             fileInput.addEventListener('change', (event) => {
                 const files = event.target.files;
                 if (files.length > 0) {
-                    
-                    // 1.1. Reset và xây dựng lại allFiles
                     allFiles = {};
                     let m3uFile = null;
 
-                    // Lọc file và lưu vào allFiles
                     for (const file of files) {
                         const relativePath = file.webkitRelativePath || file.name;
                         allFiles[relativePath] = file;
 
                         if (file.name.toLowerCase().endsWith('.m3u')) {
-                            // Ưu tiên sử dụng file .m3u đầu tiên được tìm thấy
                             if (!m3uFile) m3uFile = file;
                         }
                     }
                     
-                    // 1.2. Xác định trackList
                     if (m3uFile) {
                         readM3U(m3uFile);
                     } else {
-                        // Nếu không có M3U, tạo trackList từ tất cả các file media
                         trackList = Object.keys(allFiles)
                                         .filter(path => !path.toLowerCase().endsWith('.m3u') && 
                                                         (allFiles[path].type.startsWith('audio/') || allFiles[path].type.startsWith('video/')))
                                         .map(path => allFiles[path]);
                         updatePlaylistUI();
-                        // Tự động phát bài đầu tiên
                         if (trackList.length > 0) playTrack(0);
                     }
                 }
             });
 
-            // --- 2. Đọc và xử lý file M3U ---
             function readM3U(m3uFile) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
@@ -175,29 +361,21 @@
                     const lines = content.split('\n');
                     
                     trackList = [];
-                    // Lấy thư mục gốc (nơi chứa file .m3u)
                     const m3uDir = m3uFile.webkitRelativePath ? m3uFile.webkitRelativePath.substring(0, m3uFile.webkitRelativePath.lastIndexOf('/')) : '';
 
                     for (const line of lines) {
-                        // Bỏ qua dòng comment và dòng Extinf (mở rộng)
                         if (line.trim() === '' || line.startsWith('#')) continue;
 
                         let trackPath = line.trim();
-                        // Nếu đường dẫn tương đối (ví dụ: ../Nhac/file.mp3), thì cần giải quyết
-                        // Ở đây ta giả định các file trong m3u có đường dẫn tương đối so với thư mục gốc đã chọn.
-                        
-                        // Xây dựng đường dẫn tuyệt đối trong allFiles (key)
                         let fullPathInFiles = trackPath;
                         if (!trackPath.includes('/')) {
-                            // Giả định nếu không có thư mục con, thì file nằm cùng cấp với thư mục gốc
                             fullPathInFiles = (m3uDir ? m3uDir + '/' : '') + trackPath;
                         }
                         
-                        // Tìm file trong danh sách allFiles đã thu thập
                         const file = allFiles[fullPathInFiles] || allFiles[trackPath] || 
                                      Object.values(allFiles).find(f => f.name.toLowerCase() === trackPath.substring(trackPath.lastIndexOf('/') + 1).toLowerCase());
                         
-                        if (file) {
+                        if (file && (file.type.startsWith('audio/') || file.type.startsWith('video/'))) {
                             trackList.push(file);
                         }
                     }
@@ -208,13 +386,11 @@
                 reader.readAsText(m3uFile);
             }
 
-            // --- 3. Cập nhật giao diện Playlist ---
             function updatePlaylistUI() {
                 playlistElement.innerHTML = '';
                 if (trackList.length === 0) {
                     playlistElement.innerHTML = '<li id="empty-message">Không tìm thấy file nhạc/video hợp lệ.</li>';
-                    nextBtn.disabled = true;
-                    prevBtn.disabled = true;
+                    updateControls();
                     return;
                 }
 
@@ -229,34 +405,28 @@
                 });
             }
 
-            // --- 4. Hàm phát nhạc/video chính ---
+            // --- 5. Main Playback Function ---
             function playTrack(index) {
                 if (index >= 0 && index < trackList.length) {
                     currentTrackIndex = index;
                     const file = trackList[index];
 
-                    // Xử lý Audio/Video
                     const isVideo = file.type.startsWith('video/');
                     const isAudio = file.type.startsWith('audio/');
                     
-                    // Nếu loại file khác với trình phát hiện tại, tạo lại trình phát
-                    if ((isVideo && mediaPlayer.tagName !== 'VIDEO') || (isAudio && mediaPlayer.tagName !== 'AUDIO')) {
-                        mediaPlayer = createPlayerElement(isAudio);
-                    } else if (mediaPlayer.tagName !== 'AUDIO' && mediaPlayer.tagName !== 'VIDEO') {
-                        // Trường hợp đặc biệt khi mới load trang và chưa có trình phát
+                    if (mediaPlayer === null || (isVideo && mediaPlayer.tagName !== 'VIDEO') || (isAudio && mediaPlayer.tagName !== 'AUDIO')) {
                         mediaPlayer = createPlayerElement(isAudio);
                     }
                     
                     const fileURL = URL.createObjectURL(file);
-                    
                     mediaPlayer.src = fileURL;
                     mediaPlayer.load();
                     mediaPlayer.play().catch(error => {
                         console.error("Lỗi khi cố gắng phát:", error);
-                        currentTrackDisplay.innerHTML = `▶️ ${file.name} - (Click nút Play trên trình phát)`;
+                        playPauseBtn.textContent = '▶️';
+                        currentTrackDisplay.innerHTML = `▶️ ${file.name} - (Click nút Play để bắt đầu)`;
                     });
 
-                    // Cập nhật thông tin và highlight
                     const trackNameDisplay = file.webkitRelativePath || file.name;
                     currentTrackDisplay.innerHTML = `**${isVideo ? '📺 Đang phát Video:' : '🎶 Đang phát Nhạc:'}** ${trackNameDisplay}`;
                     highlightActiveTrack(index);
@@ -264,19 +434,22 @@
                 }
             }
 
-            // --- 5. Điều khiển chuyển bài ---
+            // --- 6. Track Navigation ---
             function playNextTrack() {
                 if (currentTrackIndex < trackList.length - 1) {
                     playTrack(currentTrackIndex + 1);
                 } else {
                     currentTrackDisplay.innerHTML = "✅ **Danh sách phát đã hoàn thành.**";
+                    mediaPlayer.pause();
                     highlightActiveTrack(-1);
                     updateControls();
                 }
             }
 
             function playPrevTrack() {
-                if (currentTrackIndex > 0) {
+                if (mediaPlayer && mediaPlayer.currentTime > 3) {
+                    mediaPlayer.currentTime = 0;
+                } else if (currentTrackIndex > 0) {
                     playTrack(currentTrackIndex - 1);
                 }
             }
@@ -286,12 +459,10 @@
                 nextBtn.disabled = currentTrackIndex >= trackList.length - 1 || trackList.length === 0;
             }
             
-            // Gắn sự kiện cho nút điều khiển
             nextBtn.addEventListener('click', playNextTrack);
             prevBtn.addEventListener('click', playPrevTrack);
 
-
-            // --- 6. Highlight bài đang phát ---
+            // --- 7. Highlight UI ---
             function highlightActiveTrack(index) {
                 const items = playlistElement.querySelectorAll('li');
                 items.forEach(item => {
