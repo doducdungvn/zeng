@@ -289,7 +289,7 @@
             let isShuffled = false;
             let shuffleHistory = []; 
 
-            // --- 0. Helper Functions (Format Time, Visualizer) ---
+            // --- 0. Helper Functions ---
             function formatTime(seconds) {
                 if (isNaN(seconds)) return '0:00';
                 const minutes = Math.floor(seconds / 60);
@@ -300,7 +300,22 @@
             function updateTimeDisplay(currentTime, duration) {
                 timeDisplay.textContent = `${formatTime(currentTime)} / ${formatTime(duration)}`;
             }
+            
+            // --- HÀM KIỂM TRA MEDIA FILE HỢP LỆ (Đã sửa lỗi MP4) ---
+            function isMediaFile(file) {
+                if (!file) return false;
+                const fileName = file.name.toLowerCase();
+                const isMediaByMimeType = file.type.startsWith('audio/') || file.type.startsWith('video/');
+                
+                // Kiểm tra theo đuôi mở rộng phổ biến
+                const isMediaByExtension = fileName.endsWith('.mp3') || fileName.endsWith('.wav') || fileName.endsWith('.m4a') || 
+                                           fileName.endsWith('.mp4') || fileName.endsWith('.webm') || fileName.endsWith('.ogg') || 
+                                           fileName.endsWith('.mov') || fileName.endsWith('.avi');
+                
+                return isMediaByMimeType || isMediaByExtension;
+            }
 
+            // --- Visualizer Setup ---
             const NUM_BARS = 32;
             let bars = [];
             for (let i = 0; i < NUM_BARS; i++) {
@@ -355,7 +370,7 @@
             currentVolumeDisplay.textContent = `${Math.round(currentVolume * 100)}%`;
             toggleVisualizer(false);
 
-            // --- 2. Volume, Mute, Play/Pause, Progress Bar ---
+            // --- 2. Controls ---
             
             function handleVolumeChange() {
                 if (mediaPlayer) {
@@ -463,7 +478,7 @@
                 playNextTrack(); 
             }
 
-            // --- 4. File/Folder Loading (ĐÃ SỬA LỖI MP4) ---
+            // --- 4. File/Folder Loading (Đã Sửa Lỗi) ---
             
             window.clearAllTracks = function() {
                 trackList = [];
@@ -496,15 +511,7 @@
                         }
                     }
                     
-                    // Lọc tất cả file media HỢP LỆ (bao gồm kiểm tra đuôi mở rộng cho các trường hợp không có MIME type)
-                    const allMediaFiles = Object.values(allFiles).filter(file => {
-                        const isMediaByMimeType = file.type.startsWith('audio/') || file.type.startsWith('video/');
-                        const fileName = file.name.toLowerCase();
-                        const isMediaByExtension = fileName.endsWith('.mp3') || fileName.endsWith('.wav') || fileName.endsWith('.m4a') || 
-                                                   fileName.endsWith('.mp4') || fileName.endsWith('.webm') || fileName.endsWith('.ogg') || fileName.endsWith('.mov');
-                        
-                        return isMediaByMimeType || isMediaByExtension;
-                    });
+                    const allMediaFiles = Object.values(allFiles).filter(file => isMediaFile(file));
 
                     trackList = []; 
                     shuffleHistory = [];
@@ -541,15 +548,8 @@
                         const file = allFiles[fullPathInFiles] || allFiles[trackPath] || 
                                      Object.values(allFiles).find(f => f.name.toLowerCase() === trackPath.substring(trackPath.lastIndexOf('/') + 1).toLowerCase());
                         
-                        if (file) { 
-                            const isMediaByMimeType = file.type.startsWith('audio/') || file.type.startsWith('video/');
-                            const fileName = file.name.toLowerCase();
-                            const isMediaByExtension = fileName.endsWith('.mp3') || fileName.endsWith('.wav') || fileName.endsWith('.m4a') || 
-                                                       fileName.endsWith('.mp4') || fileName.endsWith('.webm') || fileName.endsWith('.ogg') || fileName.endsWith('.mov');
-                            
-                            if (isMediaByMimeType || isMediaByExtension) {
-                               trackList.push(file);
-                            }
+                        if (isMediaFile(file)) { 
+                            trackList.push(file);
                         }
                     }
 
@@ -600,7 +600,7 @@
                     trackNameElement.textContent = newName.trim();
                     
                     if (index === currentTrackIndex) {
-                         const isVideo = trackList[index].type.startsWith('video/');
+                         const isVideo = isMediaFile(trackList[index]) && (trackList[index].type.startsWith('video/') || trackList[index].name.toLowerCase().endsWith('.mp4'));
                          currentTrackDisplay.innerHTML = `**${isVideo ? '📺 Đang phát Video:' : '🎶 Đang phát Nhạc:'}** ${newName.trim()}`;
                     }
                 }
@@ -676,9 +676,8 @@
                     currentTrackIndex = index;
                     const file = trackList[index];
 
-                    // *** Kiểm tra loại file (Dùng kiểm tra đuôi mở rộng cho tính tin cậy cao hơn) ***
-                    const fileName = file.name.toLowerCase();
-                    const isVideo = file.type.startsWith('video/') || fileName.endsWith('.mp4') || fileName.endsWith('.webm') || fileName.endsWith('.mov');
+                    // Kiểm tra loại file để chọn <audio> hoặc <video>
+                    const isVideo = isMediaFile(file) && (file.type.startsWith('video/') || file.name.toLowerCase().endsWith('.mp4') || file.name.toLowerCase().endsWith('.webm') || file.name.toLowerCase().endsWith('.mov'));
                     const isAudio = !isVideo; 
                     
                     if (mediaPlayer === null || (isVideo && mediaPlayer.tagName !== 'VIDEO') || (isAudio && mediaPlayer.tagName !== 'AUDIO')) {
@@ -758,7 +757,7 @@
 
                     const trackNameElement = playlistElement.querySelector(`li[data-index="${currentTrackIndex}"] .track-name`);
                     const trackNameDisplay = trackNameElement ? trackNameElement.textContent : (file.webkitRelativePath || file.name);
-                    const isVideo = file.type.startsWith('video/');
+                    const isVideo = isMediaFile(file) && (file.type.startsWith('video/') || file.name.toLowerCase().endsWith('.mp4'));
                     currentTrackDisplay.innerHTML = `**${isVideo ? '📺 Đang phát Video:' : '🎶 Đang phát Nhạc:'}** ${trackNameDisplay}`;
                     highlightActiveTrack(currentTrackIndex);
                     updateControls();
