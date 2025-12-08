@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Player ZENG™</title>
+    <title>Web Player Toàn Diện</title>
     
     <style>
         body {
@@ -195,7 +195,7 @@
     </style>
 </head>
 <body>
-    <h1>🎬 Web Player ZENG™</h1>
+    <h1>🎬 Web Player Toàn Diện</h1>
 
     <input 
         type="file" 
@@ -278,17 +278,16 @@
 
             // --- State Variables ---
             let allFiles = {}; 
-            let trackList = []; // Danh sách phát (dùng cho cả tuần tự và ngẫu nhiên)
+            let trackList = []; 
             let currentTrackIndex = -1;
             let currentVolume = 1.0;
             let isMuted = false;
             let mediaPlayer = null;
             let isDraggingSlider = false;
 
-            // Repeat Modes: 0: No Repeat (🔁), 1: Repeat One (🔂), 2: Repeat All (🔄)
             let repeatMode = 0; 
             let isShuffled = false;
-            let shuffleHistory = []; // Lưu lại các index đã phát (dùng cho nút Prev trong chế độ Shuffle)
+            let shuffleHistory = []; 
 
             // --- 0. Helper Functions (Format Time, Visualizer) ---
             function formatTime(seconds) {
@@ -420,7 +419,7 @@
                 }
             });
             
-            // --- 3. Shuffle and Repeat Logic (ĐÃ SỬA LỖI theo yêu cầu) ---
+            // --- 3. Shuffle and Repeat Logic ---
             
             function toggleRepeat() {
                 repeatMode = (repeatMode + 1) % 3;
@@ -441,19 +440,16 @@
             }
             repeatBtn.addEventListener('click', toggleRepeat);
 
-            // Chuyển sang chế độ phát ngẫu nhiên
             function toggleShuffle() {
                 isShuffled = !isShuffled;
                 shuffleBtn.classList.toggle('active-mode', isShuffled);
                 shuffleBtn.title = isShuffled ? 'Trộn: Đang bật (Ngẫu nhiên)' : 'Trộn: Đang tắt (Tuần tự)';
 
-                // Khi chuyển chế độ, cần reset lịch sử shuffle để tránh lỗi khi chuyển bài trước
                 shuffleHistory = [];
                 if (currentTrackIndex !== -1) {
                     shuffleHistory.push(currentTrackIndex);
                 }
                 
-                // Lưu ý: Không cần thay đổi trackList hay updatePlaylistUI vì nó vẫn hiển thị theo thứ tự gốc.
                 updateControls();
             }
             shuffleBtn.addEventListener('click', toggleShuffle);
@@ -467,7 +463,7 @@
                 playNextTrack(); 
             }
 
-            // --- 4. File/Folder Loading ---
+            // --- 4. File/Folder Loading (ĐÃ SỬA LỖI MP4) ---
             
             window.clearAllTracks = function() {
                 trackList = [];
@@ -500,16 +496,23 @@
                         }
                     }
                     
-                    trackList = []; // Danh sách phát luôn giữ thứ tự gốc
-                    shuffleHistory = []; // Reset lịch sử
+                    // Lọc tất cả file media HỢP LỆ (bao gồm kiểm tra đuôi mở rộng cho các trường hợp không có MIME type)
+                    const allMediaFiles = Object.values(allFiles).filter(file => {
+                        const isMediaByMimeType = file.type.startsWith('audio/') || file.type.startsWith('video/');
+                        const fileName = file.name.toLowerCase();
+                        const isMediaByExtension = fileName.endsWith('.mp3') || fileName.endsWith('.wav') || fileName.endsWith('.m4a') || 
+                                                   fileName.endsWith('.mp4') || fileName.endsWith('.webm') || fileName.endsWith('.ogg') || fileName.endsWith('.mov');
+                        
+                        return isMediaByMimeType || isMediaByExtension;
+                    });
+
+                    trackList = []; 
+                    shuffleHistory = [];
 
                     if (m3uFile) {
                         readM3U(m3uFile);
                     } else {
-                        trackList = Object.keys(allFiles)
-                                        .filter(path => !path.toLowerCase().endsWith('.m3u') && 
-                                                        (allFiles[path].type.startsWith('audio/') || allFiles[path].type.startsWith('video/')))
-                                        .map(path => allFiles[path]);
+                        trackList = allMediaFiles;
                         
                         updatePlaylistUI();
                         if (trackList.length > 0) playTrack(0);
@@ -538,8 +541,15 @@
                         const file = allFiles[fullPathInFiles] || allFiles[trackPath] || 
                                      Object.values(allFiles).find(f => f.name.toLowerCase() === trackPath.substring(trackPath.lastIndexOf('/') + 1).toLowerCase());
                         
-                        if (file && (file.type.startsWith('audio/') || file.type.startsWith('video/'))) {
-                            trackList.push(file);
+                        if (file) { 
+                            const isMediaByMimeType = file.type.startsWith('audio/') || file.type.startsWith('video/');
+                            const fileName = file.name.toLowerCase();
+                            const isMediaByExtension = fileName.endsWith('.mp3') || fileName.endsWith('.wav') || fileName.endsWith('.m4a') || 
+                                                       fileName.endsWith('.mp4') || fileName.endsWith('.webm') || fileName.endsWith('.ogg') || fileName.endsWith('.mov');
+                            
+                            if (isMediaByMimeType || isMediaByExtension) {
+                               trackList.push(file);
+                            }
                         }
                     }
 
@@ -556,7 +566,6 @@
 
                 trackList.splice(indexToDelete, 1);
                 
-                // Điều chỉnh index bài đang phát
                 if (indexToDelete === currentTrackIndex) {
                     if (trackList.length > 0) {
                         playTrack(indexToDelete % trackList.length); 
@@ -568,15 +577,16 @@
                     currentTrackIndex--;
                 }
                 
-                // Cần cập nhật lại lịch sử shuffle vì các index đã thay đổi
                 shuffleHistory = shuffleHistory
-                                 .filter(index => index !== indexToDelete) // Loại bỏ bài hát bị xóa khỏi lịch sử
-                                 .map(index => index > indexToDelete ? index - 1 : index); // Giảm index nếu lớn hơn index bị xóa
+                                 .filter(index => index !== indexToDelete) 
+                                 .map(index => index > indexToDelete ? index - 1 : index); 
 
                 updatePlaylistUI();
                 highlightActiveTrack(currentTrackIndex);
                 updateControls();
             }
+
+            window.deleteTrack = deleteTrack; 
 
             function editTrackName(index) {
                 const li = playlistElement.querySelector(`li[data-index="${index}"]`);
@@ -595,6 +605,8 @@
                     }
                 }
             }
+            
+            window.editTrackName = editTrackName; 
 
 
             // --- 6. Cập nhật giao diện Playlist ---
@@ -620,8 +632,7 @@
 
                     const trackName = document.createElement('span');
                     trackName.className = 'track-name';
-                    // Hiển thị tên file hoặc đường dẫn tương đối
-                    trackName.textContent = file.webkitRelativePath || file.name; 
+                    trackName.textContent = file.webkitRelativePath || file.name;
                     infoDiv.appendChild(trackName);
 
                     li.appendChild(infoDiv);
@@ -658,7 +669,6 @@
             function playTrack(index) {
                 if (index >= 0 && index < trackList.length) {
                     
-                    // Thêm bài hát hiện tại vào lịch sử (chỉ thêm nếu khác bài cuối cùng)
                     if (shuffleHistory[shuffleHistory.length - 1] !== index) {
                          shuffleHistory.push(index);
                     }
@@ -666,8 +676,10 @@
                     currentTrackIndex = index;
                     const file = trackList[index];
 
-                    const isVideo = file.type.startsWith('video/');
-                    const isAudio = file.type.startsWith('audio/');
+                    // *** Kiểm tra loại file (Dùng kiểm tra đuôi mở rộng cho tính tin cậy cao hơn) ***
+                    const fileName = file.name.toLowerCase();
+                    const isVideo = file.type.startsWith('video/') || fileName.endsWith('.mp4') || fileName.endsWith('.webm') || fileName.endsWith('.mov');
+                    const isAudio = !isVideo; 
                     
                     if (mediaPlayer === null || (isVideo && mediaPlayer.tagName !== 'VIDEO') || (isAudio && mediaPlayer.tagName !== 'AUDIO')) {
                         mediaPlayer = createPlayerElement(isAudio);
@@ -691,14 +703,14 @@
                 }
             }
 
-            // --- 8. Track Navigation (ĐÃ SỬA LỖI theo yêu cầu) ---
+            // --- 8. Track Navigation ---
 
             function getRandomIndex(currentIndex) {
                 if (trackList.length <= 1) return 0;
                 let newIndex;
                 do {
                     newIndex = Math.floor(Math.random() * trackList.length);
-                } while (newIndex === currentIndex); // Đảm bảo không lặp lại bài hát hiện tại
+                } while (newIndex === currentIndex); 
                 return newIndex;
             }
 
@@ -706,14 +718,12 @@
                 let nextIndex;
 
                 if (isShuffled) {
-                    // Chế độ Shuffle: Phát bài ngẫu nhiên, không lặp lại bài đang phát.
                     nextIndex = getRandomIndex(currentTrackIndex);
                 } else {
-                    // Chế độ Tuần tự
                     if (currentTrackIndex < trackList.length - 1) {
                         nextIndex = currentTrackIndex + 1;
                     } else if (repeatMode === 2) {
-                        nextIndex = 0; // Lặp lại toàn bộ danh sách
+                        nextIndex = 0; 
                     } else {
                         currentTrackDisplay.innerHTML = "✅ **Danh sách phát đã hoàn thành.**";
                         if (mediaPlayer) mediaPlayer.pause();
@@ -727,22 +737,15 @@
             }
 
             function playPrevTrack() {
-                // Quay lại đầu bài nếu đã phát quá 3 giây
                 if (mediaPlayer && mediaPlayer.currentTime > 3) {
                     mediaPlayer.currentTime = 0;
                     return;
                 }
 
-                // Luôn sử dụng lịch sử phát, đặc biệt quan trọng trong chế độ Shuffle
                 if (shuffleHistory.length > 1) {
-                    // Bài hiện tại đang ở cuối lịch sử, pop nó ra
                     shuffleHistory.pop(); 
-                    // Lấy bài trước đó trong lịch sử
                     const prevIndex = shuffleHistory[shuffleHistory.length - 1]; 
                     
-                    // Quan trọng: Chỉ gọi playTrack với index (không push vào lịch sử nữa)
-                    // Ta chỉ cập nhật mediaPlayer và UI, nhưng không thêm vào lịch sử
-                    // vì bài hát này đã có sẵn.
                     currentTrackIndex = prevIndex;
                     const file = trackList[currentTrackIndex];
                     
@@ -753,7 +756,6 @@
                         mediaPlayer.play();
                     }
 
-                    // Cập nhật UI
                     const trackNameElement = playlistElement.querySelector(`li[data-index="${currentTrackIndex}"] .track-name`);
                     const trackNameDisplay = trackNameElement ? trackNameElement.textContent : (file.webkitRelativePath || file.name);
                     const isVideo = file.type.startsWith('video/');
@@ -762,10 +764,8 @@
                     updateControls();
 
                 } else if (currentTrackIndex > 0) {
-                    // Chế độ Tuần tự, lùi 1 bài
                     playTrack(currentTrackIndex - 1);
                 } else if (repeatMode === 2 && trackList.length > 0) {
-                    // Chế độ Lặp lại toàn bộ, về cuối danh sách
                     playTrack(trackList.length - 1);
                 }
             }
