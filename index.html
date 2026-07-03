@@ -115,36 +115,38 @@
         .track-item:hover { background-color: rgba(255, 255, 255, 0.05); }
 
         #ytPlayerDiv { pointer-events: auto; }
+
+
     </style>
 </head>
 <body class="bg-zeng-dark text-white font-sans h-screen flex flex-col overflow-hidden select-none relative">
     
     <!-- HEADER -->
-    <header class="h-16 bg-black flex items-center justify-between px-6 shrink-0 z-30 shadow-md">
-        <div class="flex items-center gap-3">
-            <div class="w-8 h-8 rounded-full bg-zeng-green flex items-center justify-center shadow-[0_0_15px_rgba(29,185,84,0.5)]">
+    <header class="h-16 bg-black flex items-center justify-between px-4 sm:px-6 shrink-0 z-30 shadow-md">
+        <div class="flex items-center gap-2 sm:gap-3">
+            <div class="w-8 h-8 rounded-full bg-zeng-green flex items-center justify-center shadow-[0_0_15px_rgba(29,185,84,0.5)] shrink-0">
                 <i class="fas fa-play text-black text-xs ml-0.5"></i>
             </div>
-            <h1 class="text-xl font-bold tracking-wider hidden md:block">ZENG<span class="font-light">PLAYER</span></h1>
+            <h1 class="text-lg sm:text-xl font-bold tracking-wider hidden xs:block">ZENG<span class="font-light">PLAYER</span></h1>
         </div>
 
         <!-- YOUTUBE SEARCH -->
-        <div class="flex-1 max-w-xl mx-4 relative">
-            <div class="flex items-center gap-2 bg-[#242424] hover:bg-[#2a2a2a] transition rounded-full px-4 py-2 border border-white/10 focus-within:border-zeng-green/50 focus-within:bg-black">
-                <i class="fab fa-youtube text-[#ff0000] text-lg"></i>
-                <input type="text" id="ytSearchInput" placeholder="Tìm kiếm YouTube (Online)..." class="bg-transparent text-sm text-white focus:outline-none w-full placeholder-gray-500">
-                <button id="btnYtSearch" class="text-zeng-light hover:text-white transition px-2">
+        <div class="flex-1 max-w-xs sm:max-w-md md:max-w-xl mx-2 sm:mx-4 relative">
+            <div class="flex items-center gap-2 bg-[#242424] hover:bg-[#2a2a2a] transition rounded-full px-3 sm:px-4 py-1.5 sm:py-2 border border-white/10 focus-within:border-zeng-green/50 focus-within:bg-black">
+                <i class="fab fa-youtube text-[#ff0000] text-base sm:text-lg"></i>
+                <input type="text" id="ytSearchInput" placeholder="Tìm YouTube..." class="bg-transparent text-xs sm:text-sm text-white focus:outline-none w-full placeholder-gray-500">
+                <button id="btnYtSearch" class="text-zeng-light hover:text-white transition px-1 sm:px-2">
                     <i class="fas fa-search"></i>
                 </button>
             </div>
         </div>
 
-        <div class="flex items-center gap-3">
-            <button id="btnTrending" class="bg-zeng-burgundy hover:bg-[#9a0028] text-white px-4 py-2 rounded-full text-xs md:text-sm font-semibold transition flex items-center gap-2 border border-white/10 shadow-[0_0_15px_rgba(128,0,32,0.3)]">
-                <i class="fas fa-fire text-yellow-400"></i> <span>Thịnh hành</span>
+        <div class="flex items-center gap-1.5 sm:gap-3 shrink-0">
+            <button id="btnTrending" class="bg-zeng-burgundy hover:bg-[#9a0028] text-white px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs font-semibold transition flex items-center gap-1 sm:gap-2 border border-white/10 shadow-[0_0_15px_rgba(128,0,32,0.3)]" title="Thịnh hành YouTube">
+                <i class="fas fa-fire text-yellow-400"></i> <span class="hidden sm:inline">Thịnh hành</span>
             </button>
-            <label for="fileInput" class="cursor-pointer bg-white/10 hover:bg-white/20 text-white px-4 md:px-5 py-2 rounded-full text-xs md:text-sm font-semibold transition flex items-center gap-2 border border-white/10">
-                <i class="fas fa-folder-open"></i> <span class="hidden md:inline">Nhạc Offline</span>
+            <label for="fileInput" class="cursor-pointer bg-white/10 hover:bg-white/20 text-white px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs font-semibold transition flex items-center gap-1 sm:gap-2 border border-white/10" title="Chọn thư mục nhạc offline">
+                <i class="fas fa-folder-open"></i> <span class="hidden sm:inline">Nhạc Offline</span>
             </label>
             <input type="file" id="fileInput" accept="audio/*, video/*" multiple webkitdirectory class="hidden">
         </div>
@@ -153,14 +155,14 @@
     <!-- SEARCH RESULTS MODAL -->
     <div id="ytSearchResults" class="absolute top-16 left-0 right-0 bg-[#121212] border-b border-white/10 shadow-2xl z-40 max-h-[60vh] overflow-y-auto hidden flex flex-col">
         <div class="p-4 flex justify-between items-center border-b border-white/5 bg-[#181818] sticky top-0 z-10">
-            <h2 class="text-lg font-bold">Kết quả từ YouTube: <span id="lblSearchQuery" class="text-zeng-green font-normal"></span></h2>
+            <h2 class="text-base sm:text-lg font-bold">Kết quả từ YouTube: <span id="lblSearchQuery" class="text-zeng-green font-normal"></span></h2>
             <button id="btnCloseSearch" class="text-zeng-light hover:text-white p-2"><i class="fas fa-times text-xl"></i></button>
         </div>
         <div id="ytSearchLoading" class="p-10 text-center text-zeng-light hidden">
             <i class="fas fa-circle-notch fa-spin text-4xl mb-4 text-zeng-green"></i>
             <p>Đang tìm kiếm...</p>
         </div>
-        <div id="ytResultsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-4">
+        <div id="ytResultsGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
             <!-- Items injected by JS -->
         </div>
     </div>
@@ -169,7 +171,7 @@
     <main class="flex-1 flex overflow-hidden relative z-0">
         
         <!-- PLAYER AREA (Left) -->
-        <div class="flex-1 bg-gradient-to-br from-[#2a2a2a] to-zeng-dark relative flex flex-col items-center justify-center p-8 overflow-hidden" id="playerArea">
+        <div class="flex-1 bg-gradient-to-br from-[#2a2a2a] to-zeng-dark relative flex flex-col items-center justify-center p-4 sm:p-8 overflow-hidden" id="playerArea">
             
             <!-- YouTube UI -->
             <div id="ytContainer" class="w-full h-full max-w-5xl rounded-xl overflow-hidden shadow-2xl bg-black hidden items-center justify-center relative">
@@ -188,36 +190,40 @@
             <div id="audioContainer" class="w-full h-full flex flex-col items-center justify-center transition-all duration-500">
                 <!-- Vinyl -->
                 <div class="relative group">
-                    <div class="w-64 h-64 md:w-80 md:h-80 rounded-full border-[10px] border-[#0a0a0a] shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex items-center justify-center bg-[#111] overflow-hidden vinyl-spin paused" id="vinylCover">
-                        <div class="w-24 h-24 rounded-full border-4 border-[#0a0a0a] z-10 shadow-inner" style="background: repeating-radial-gradient(#800020, #800020 10px, #500014 10px, #500014 20px);"></div>
-                        <div class="absolute w-5 h-5 bg-[#0a0a0a] rounded-full z-20 shadow-inner"></div>
+                    <div class="w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 rounded-full border-[6px] sm:border-[10px] border-[#0a0a0a] shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex items-center justify-center bg-[#111] overflow-hidden vinyl-spin paused" id="vinylCover">
+                        <div id="vinylLabel" class="w-16 h-16 sm:w-24 sm:h-24 rounded-full border-4 border-[#0a0a0a] z-10 shadow-inner bg-cover bg-center transition-all duration-300" style="background: repeating-radial-gradient(#800020, #800020 10px, #500014 10px, #500014 20px);"></div>
+                        <div class="absolute w-4 h-4 sm:w-5 sm:h-5 bg-[#0a0a0a] rounded-full z-20 shadow-inner"></div>
                         <!-- Grooves -->
-                        <div class="absolute inset-0 rounded-full border-[1px] border-white/5 m-4"></div>
-                        <div class="absolute inset-0 rounded-full border-[1px] border-white/5 m-10"></div>
-                        <div class="absolute inset-0 rounded-full border-[1px] border-white/5 m-16"></div>
-                        <div class="absolute inset-0 rounded-full border-[1px] border-white/5 m-24"></div>
+                        <div class="absolute inset-0 rounded-full border-[1px] border-white/5 m-3 sm:m-4"></div>
+                        <div class="absolute inset-0 rounded-full border-[1px] border-white/5 m-7 sm:m-10"></div>
+                        <div class="absolute inset-0 rounded-full border-[1px] border-white/5 m-11 sm:m-16"></div>
+                        <div class="absolute inset-0 rounded-full border-[1px] border-white/5 m-17 sm:m-24"></div>
                     </div>
                 </div>
                 
-                <div class="mt-10 text-center max-w-md w-full px-4">
-                    <h2 id="displayTitle" class="text-3xl font-bold truncate text-white drop-shadow-md">Chưa có Media</h2>
-                    <p id="displayType" class="text-zeng-light mt-2 font-medium tracking-wide">Hãy chọn một thư mục để bắt đầu</p>
+                <div class="mt-6 sm:mt-10 text-center max-w-xs sm:max-w-md w-full px-4">
+                    <h2 id="displayTitle" class="text-xl sm:text-3xl font-bold truncate text-white drop-shadow-md">Chưa có Media</h2>
+                    <p id="displayType" class="text-xs sm:text-sm text-zeng-light mt-1 sm:mt-2 font-medium tracking-wide">Hãy chọn nhạc để bắt đầu phát</p>
                 </div>
                 
                 <!-- Custom Canvas Visualizer -->
-                <div class="h-16 w-full max-w-md mt-8 flex items-end justify-center" id="visualizerBox">
-                    <canvas id="visualizerCanvas" width="400" height="64" class="opacity-80"></canvas>
+                <div class="h-12 sm:h-16 w-full max-w-[280px] sm:max-w-md mt-6 sm:mt-8 flex items-end justify-center" id="visualizerBox">
+                    <canvas id="visualizerCanvas" width="300" height="64" class="opacity-80 w-full"></canvas>
                 </div>
             </div>
             
             <audio id="audioElement"></audio>
         </div>
 
-        <!-- PLAYLIST (Right) -->
-        <aside class="w-[350px] bg-zeng-panel flex flex-col border-l border-white/5 shrink-0 z-10 shadow-xl">
-            <div class="p-5 border-b border-white/5 flex justify-between items-center bg-[#1e1e1e]">
-                <h3 class="font-bold text-lg text-white">Danh Sách Phát</h3>
-                <span id="trackCount" class="text-xs text-zeng-light font-bold bg-white/10 px-2 py-1 rounded-full">0 bài</span>
+        <!-- PLAYLIST (Right / Responsive toggle sheet on mobile) -->
+        <aside id="playlistSidebar" class="hidden md:flex w-[350px] bg-zeng-panel flex-col border-l border-white/5 shrink-0 z-10 shadow-xl transition-all duration-300">
+            <div class="p-4 sm:p-5 border-b border-white/5 flex justify-between items-center bg-[#1e1e1e]">
+                <h3 class="font-bold text-base sm:text-lg text-white">Danh Sách Phát</h3>
+                <div class="flex items-center gap-1.5 sm:gap-2">
+                    <span id="trackCount" class="text-[10px] sm:text-xs text-zeng-light font-bold bg-white/10 px-2 py-1 rounded-full">0 bài</span>
+                    <button id="btnFetchMore" class="bg-zeng-green hover:bg-green-600 text-black text-[10px] sm:text-xs font-bold px-2.5 py-1 rounded-full transition" title="Lấy thêm nhạc thịnh hành">Lấy tiếp</button>
+                    <button id="btnClearAll" class="bg-red-600 hover:bg-red-700 text-white text-[10px] sm:text-xs font-bold px-2.5 py-1 rounded-full transition" title="Xóa toàn bộ danh sách">Xóa hết</button>
+                </div>
             </div>
             
             <div id="dropZone" class="flex-1 overflow-y-auto relative">
@@ -238,56 +244,59 @@
     </main>
 
     <!-- BOTTOM CONTROLS -->
-    <footer class="h-24 bg-[#181818] border-t border-white/10 flex items-center px-4 shrink-0 relative z-20 shadow-[0_-10px_20px_rgba(0,0,0,0.3)]">
+    <footer class="h-24 bg-[#181818] border-t border-white/10 flex items-center justify-between px-4 shrink-0 relative z-20 shadow-[0_-10px_20px_rgba(0,0,0,0.3)]">
         
         <!-- Left Info -->
-        <div class="w-1/3 flex items-center gap-4">
-            <div id="thumbCover" class="w-14 h-14 bg-[#282828] rounded shadow-md flex items-center justify-center shrink-0 overflow-hidden bg-cover bg-center">
-                <i id="thumbIcon" class="fas fa-music text-zeng-light text-xl"></i>
+        <div class="w-1/4 sm:w-1/3 flex items-center gap-3 overflow-hidden">
+            <div id="thumbCover" class="w-10 h-10 sm:w-14 sm:h-14 bg-[#282828] rounded shadow-md flex items-center justify-center shrink-0 overflow-hidden bg-cover bg-center">
+                <i id="thumbIcon" class="fas fa-music text-zeng-light text-base sm:text-xl"></i>
             </div>
-            <div class="overflow-hidden">
-                <div id="bottomTitle" class="text-white text-sm font-bold truncate cursor-default">Chưa phát</div>
-                <div id="bottomArtist" class="text-xs text-zeng-light truncate mt-1">ZENG Player</div>
+            <div class="overflow-hidden min-w-0">
+                <div id="bottomTitle" class="text-white text-xs sm:text-sm font-bold truncate cursor-default">Chưa phát</div>
+                <div id="bottomArtist" class="text-[10px] sm:text-xs text-zeng-light truncate mt-0.5 sm:mt-1">ZENG Player</div>
             </div>
         </div>
 
         <!-- Center Player -->
-        <div class="w-1/3 flex flex-col items-center justify-center gap-2">
-            <div class="flex items-center gap-6">
-                <button id="btnShuffle" class="text-zeng-light hover:text-white transition" title="Trộn bài">
+        <div class="flex-1 sm:w-1/3 flex flex-col items-center justify-center gap-1.5 sm:gap-2 px-2">
+            <div class="flex items-center gap-3.5 sm:gap-6">
+                <button id="btnShuffle" class="text-zeng-light hover:text-white transition text-xs sm:text-base" title="Trộn bài">
                     <i class="fas fa-random"></i>
                 </button>
-                <button id="btnPrev" class="text-zeng-light hover:text-white transition text-xl">
+                <button id="btnPrev" class="text-zeng-light hover:text-white transition text-base sm:text-xl">
                     <i class="fas fa-step-backward"></i>
                 </button>
-                <button id="btnPlayPause" class="w-9 h-9 flex items-center justify-center bg-white text-black rounded-full hover:scale-105 transition shadow-lg">
-                    <i id="playIcon" class="fas fa-play ml-1"></i>
+                <button id="btnPlayPause" class="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center bg-white text-black rounded-full hover:scale-105 transition shadow-lg shrink-0">
+                    <i id="playIcon" class="fas fa-play ml-0.5 sm:ml-1 text-xs sm:text-sm"></i>
                 </button>
-                <button id="btnNext" class="text-zeng-light hover:text-white transition text-xl">
+                <button id="btnNext" class="text-zeng-light hover:text-white transition text-base sm:text-xl">
                     <i class="fas fa-step-forward"></i>
                 </button>
-                <button id="btnRepeat" class="text-zeng-light hover:text-white transition relative" title="Lặp lại">
+                <button id="btnRepeat" class="text-zeng-light hover:text-white transition relative text-xs sm:text-base" title="Lặp lại">
                     <i class="fas fa-redo"></i>
-                    <span id="repeatIndicator" class="absolute -top-2 -right-2 text-[9px] bg-zeng-green text-black font-bold w-3 h-3 rounded-full flex items-center justify-center hidden">1</span>
+                    <span id="repeatIndicator" class="absolute -top-1.5 -right-1.5 text-[8px] bg-zeng-green text-black font-bold w-2.5 h-2.5 rounded-full flex items-center justify-center hidden">1</span>
                 </button>
             </div>
-            <div class="flex items-center w-full max-w-md gap-3 text-xs text-zeng-light font-mono group">
-                <span id="timeCurrent" class="w-10 text-right">0:00</span>
+            <div class="flex items-center w-full max-w-[280px] sm:max-w-md gap-2 sm:gap-3 text-[10px] sm:text-xs text-zeng-light font-mono group">
+                <span id="timeCurrent" class="w-8 sm:w-10 text-right">0:00</span>
                 <input type="range" id="progressBar" min="0" max="100" value="0" class="flex-1">
-                <span id="timeDuration" class="w-10">0:00</span>
+                <span id="timeDuration" class="w-8 sm:w-10">0:00</span>
             </div>
         </div>
 
-        <!-- Right Volume -->
-        <div class="w-1/3 flex items-center justify-end gap-3 pr-2 group">
-            <button id="btnMute" class="text-zeng-light hover:text-white transition w-6 text-center">
+        <!-- Right Volume & Menu -->
+        <div class="w-1/4 sm:w-1/3 flex items-center justify-end gap-2.5 sm:gap-3 pr-1 group">
+            <button id="btnMute" class="text-zeng-light hover:text-white transition w-5 sm:w-6 text-center hidden md:inline-block">
                 <i class="fas fa-volume-up"></i>
             </button>
-            <div class="w-24 flex items-center">
+            <div class="w-16 sm:w-24 hidden md:flex items-center">
                 <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1">
             </div>
-            <button id="btnFullscreen" class="text-zeng-light hover:text-white transition ml-3 w-6 text-center" title="Toàn màn hình">
+            <button id="btnFullscreen" class="text-zeng-light hover:text-white transition w-5 sm:w-6 text-center" title="Toàn màn hình">
                 <i class="fas fa-expand"></i>
+            </button>
+            <button id="btnTogglePlaylist" class="text-zeng-light hover:text-white transition w-5 sm:w-6 text-center md:hidden" title="Danh sách phát">
+                <i class="fas fa-list"></i>
             </button>
         </div>
     </footer>
@@ -349,7 +358,10 @@
                 lblSearchQuery: document.getElementById('lblSearchQuery'),
                 ytSearchLoading: document.getElementById('ytSearchLoading'),
                 
-                btnTrending: document.getElementById('btnTrending')
+                btnTrending: document.getElementById('btnTrending'),
+                btnTogglePlaylist: document.getElementById('btnTogglePlaylist'),
+                btnFetchMore: document.getElementById('btnFetchMore'),
+                btnClearAll: document.getElementById('btnClearAll')
             };
 
             // Debug Validation
@@ -377,6 +389,7 @@
             let isPlaying = false;
             let isDraggingProgress = false;
             let ytTimer = null;
+            let isPlaylistOpen = false;
             
             let repeatMode = 0; 
             let isShuffled = false;
@@ -388,6 +401,7 @@
             let sourceNodes = new Map();
             let canvasCtx = DOM.canvas ? DOM.canvas.getContext('2d') : null;
             let animationId;
+
 
             // --- Hoisted Helper & Core Functions ---
             function formatTime(secs) {
@@ -440,39 +454,60 @@
                 }
             }
 
+            let simOffset = 0;
             function drawVisualizer() {
-                if (!analyser || !isPlaying || activePlayerType !== 'audio' || !canvasCtx || !DOM.canvas) {
+                if (!isPlaying || !canvasCtx || !DOM.canvas) {
                     if (canvasCtx && DOM.canvas) canvasCtx.clearRect(0, 0, DOM.canvas.width, DOM.canvas.height);
-                    if (isPlaying && activePlayerType === 'audio') {
-                        animationId = requestAnimationFrame(drawVisualizer);
-                    }
                     return;
                 }
                 
+                cancelAnimationFrame(animationId);
                 animationId = requestAnimationFrame(drawVisualizer);
                 
-                const bufferLength = analyser.frequencyBinCount;
-                const dataArray = new Uint8Array(bufferLength);
-                analyser.getByteFrequencyData(dataArray);
-
-                canvasCtx.clearRect(0, 0, DOM.canvas.width, DOM.canvas.height);
-                
-                const barWidth = (DOM.canvas.width / 32) - 2;
+                const barCount = 32;
+                const barWidth = (DOM.canvas.width / barCount) - 2;
                 let x = 0;
 
-                for (let i = 0; i < 32; i++) {
-                    const barHeight = (dataArray[i] / 255) * DOM.canvas.height;
-                    const gradient = canvasCtx.createLinearGradient(0, DOM.canvas.height, 0, 0);
-                    gradient.addColorStop(0, '#1DB954');
-                    gradient.addColorStop(1, '#1ed760');
-                    
-                    canvasCtx.fillStyle = gradient;
-                    const y = DOM.canvas.height - barHeight;
-                    canvasCtx.beginPath();
-                    canvasCtx.roundRect(x, y, barWidth, barHeight, 3);
-                    canvasCtx.fill();
-                    
-                    x += barWidth + 2;
+                canvasCtx.clearRect(0, 0, DOM.canvas.width, DOM.canvas.height);
+
+                if (activePlayerType === 'audio' && analyser) {
+                    const bufferLength = analyser.frequencyBinCount;
+                    const dataArray = new Uint8Array(bufferLength);
+                    analyser.getByteFrequencyData(dataArray);
+
+                    for (let i = 0; i < barCount; i++) {
+                        const barHeight = (dataArray[i] / 255) * DOM.canvas.height;
+                        const gradient = canvasCtx.createLinearGradient(0, DOM.canvas.height, 0, 0);
+                        gradient.addColorStop(0, '#1DB954');
+                        gradient.addColorStop(1, '#1ed760');
+                        
+                        canvasCtx.fillStyle = gradient;
+                        const y = DOM.canvas.height - barHeight;
+                        canvasCtx.beginPath();
+                        canvasCtx.roundRect(x, y, barWidth, barHeight, 3);
+                        canvasCtx.fill();
+                        x += barWidth + 2;
+                    }
+                } else {
+                    // Simulated visualizer for YouTube, local Video, or fallback
+                    simOffset += 0.15;
+                    for (let i = 0; i < barCount; i++) {
+                        const waveVal = Math.sin(i * 0.3 + simOffset) * 0.4 + 0.6; // [0.2, 1.0]
+                        const noise = Math.random() * 0.25;
+                        const finalVal = Math.max(0.1, Math.min(1.0, waveVal * 0.7 + noise));
+                        const barHeight = finalVal * DOM.canvas.height;
+
+                        const gradient = canvasCtx.createLinearGradient(0, DOM.canvas.height, 0, 0);
+                        gradient.addColorStop(0, '#1DB954');
+                        gradient.addColorStop(1, '#1ed760');
+                        
+                        canvasCtx.fillStyle = gradient;
+                        const y = DOM.canvas.height - barHeight;
+                        canvasCtx.beginPath();
+                        canvasCtx.roundRect(x, y, barWidth, barHeight, 3);
+                        canvasCtx.fill();
+                        x += barWidth + 2;
+                    }
                 }
             }
 
@@ -495,22 +530,20 @@
                     if (activePlayerType !== type) return;
                     isPlaying = true;
                     if (DOM.playIcon) DOM.playIcon.className = 'fas fa-pause ml-0';
+                    if (DOM.vinylCover) DOM.vinylCover.classList.remove('paused');
                     if (type === 'audio') {
-                        if (DOM.vinylCover) DOM.vinylCover.classList.remove('paused');
                         initAudioContext(DOM.audioElement);
                         if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
-                        drawVisualizer();
                     }
+                    drawVisualizer();
                 });
                 player.addEventListener('pause', () => {
                     if (activePlayerType !== type) return;
                     isPlaying = false;
                     if (DOM.playIcon) DOM.playIcon.className = 'fas fa-play ml-1';
-                    if (type === 'audio') {
-                        if (DOM.vinylCover) DOM.vinylCover.classList.add('paused');
-                        cancelAnimationFrame(animationId);
-                        if (canvasCtx && DOM.canvas) canvasCtx.clearRect(0, 0, DOM.canvas.width, DOM.canvas.height);
-                    }
+                    if (DOM.vinylCover) DOM.vinylCover.classList.add('paused');
+                    cancelAnimationFrame(animationId);
+                    if (canvasCtx && DOM.canvas) canvasCtx.clearRect(0, 0, DOM.canvas.width, DOM.canvas.height);
                 });
             }
 
@@ -527,7 +560,9 @@
                 stopYtTimer();
                 isPlaying = false;
                 if (DOM.playIcon) DOM.playIcon.className = 'fas fa-play ml-1';
+                if (DOM.vinylCover) DOM.vinylCover.classList.add('paused');
 
+                // Hide all player areas by default
                 if (DOM.audioContainer) DOM.audioContainer.classList.add('hidden');
                 if (DOM.videoContainer) {
                     DOM.videoContainer.classList.remove('flex');
@@ -537,9 +572,15 @@
                     DOM.ytContainer.classList.remove('flex');
                     DOM.ytContainer.classList.add('hidden');
                 }
-                
+
+                // Clear artwork backgrounds
                 if (DOM.thumbCover) DOM.thumbCover.style.backgroundImage = 'none';
                 if (DOM.thumbIcon) DOM.thumbIcon.className = '';
+                
+                const vinylLabel = document.getElementById('vinylLabel');
+                if (vinylLabel) {
+                    vinylLabel.style.backgroundImage = 'repeating-radial-gradient(#800020, #800020 10px, #500014 10px, #500014 20px)';
+                }
 
                 if (track.type === 'local') {
                     const url = URL.createObjectURL(track.file);
@@ -576,13 +617,15 @@
                         DOM.ytContainer.classList.add('flex');
                     }
                     
-                    if (track.thumb && DOM.thumbCover) {
-                        DOM.thumbCover.style.backgroundImage = `url('${track.thumb}')`;
+                    if (track.thumb) {
+                        if (DOM.thumbCover) DOM.thumbCover.style.backgroundImage = `url('${track.thumb}')`;
+                        if (vinylLabel) vinylLabel.style.backgroundImage = `url('${track.thumb}')`;
                     } else if (DOM.thumbIcon) {
                         DOM.thumbIcon.className = 'fab fa-youtube text-red-500 text-2xl';
                     }
 
                     if (DOM.displayTitle) DOM.displayTitle.textContent = track.name;
+                    if (DOM.displayType) DOM.displayType.textContent = 'Đang phát YouTube';
                     if (DOM.bottomTitle) DOM.bottomTitle.textContent = track.name;
                     if (DOM.bottomArtist) DOM.bottomArtist.textContent = track.artist || 'YouTube';
 
@@ -721,7 +764,13 @@
                     `;
 
                     li.addEventListener('click', (e) => {
-                        if (!e.target.closest('.delete-btn')) playTrack(index);
+                        if (!e.target.closest('.delete-btn')) {
+                            playTrack(index);
+                            // On mobile, automatically close playlist sheet when track is selected
+                            if (isPlaylistOpen && DOM.btnTogglePlaylist) {
+                                DOM.btnTogglePlaylist.click();
+                            }
+                        }
                     });
                     li.querySelector('.delete-btn').addEventListener('click', (e) => {
                         e.stopPropagation();
@@ -766,107 +815,76 @@
                 }
             }
 
-            // --- YouTube Proxy Fetch & Parsing (Highly Robust) ---
-            async function fetchWithProxy(targetUrl) {
-                // Free CORS Proxies (Free to use on localhost origins)
-                const proxies = [
-                    `https://corsproxy.io/?url=${encodeURIComponent(targetUrl)}`,
-                    `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`,
-                    `https://api.codetabs.com/v1/proxy?guest=${encodeURIComponent(targetUrl)}`
-                ];
-                
-                let lastError = null;
-                for (const proxy of proxies) {
-                    try {
-                        const controller = new AbortController();
-                        const timeoutId = setTimeout(() => controller.abort(), 7000); // 7s timeout
-                        const res = await fetch(proxy, { signal: controller.signal });
-                        clearTimeout(timeoutId);
-                        
-                        if (res.ok) {
-                            const text = await res.text();
-                            if (text && text.includes("ytInitialData")) {
-                                return text;
+            // --- Hoisted Parallel Piped Racing (100% Direct, No Proxy, CORS-enabled) ---
+            const PIPED_DOMAINS = [
+                "api.piped.private.coffee",
+                "pipedapi.kavin.rocks",
+                "api.piped.yt",
+                "pipedapi-libre.kavin.rocks",
+                "pipedapi.reallyaweso.me",
+                "pipedapi.leptons.xyz",
+                "pipedapi.orangenet.cc"
+            ];
+
+            async function fetchPipedParallel(endpoint) {
+                const controllers = [];
+                const promises = PIPED_DOMAINS.map(domain => {
+                    const controller = new AbortController();
+                    controllers.push(controller);
+                    return fetch(`https://${domain}/${endpoint}`, { signal: controller.signal })
+                        .then(async res => {
+                            if (res.ok) {
+                                const data = await res.json();
+                                if (data && (Array.isArray(data) || data.items || data.length > 0)) {
+                                    // Cancel all other pending requests
+                                    controllers.forEach(c => {
+                                        try { c.abort(); } catch(e) {}
+                                    });
+                                    return data;
+                                }
                             }
-                        }
-                    } catch (e) {
-                        console.warn(`Proxy ${proxy} failed:`, e);
-                        lastError = e;
-                    }
-                }
-                throw lastError || new Error("Không thể kết nối đến máy chủ YouTube qua các cổng trung gian.");
-            }
-
-            // Traverses arbitrary nested YouTube initialData JSON objects to find video details
-            function findVideoRenderers(obj) {
-                const renderers = [];
-                function traverse(curr) {
-                    if (!curr || typeof curr !== 'object') return;
-                    if (curr.videoRenderer) {
-                        renderers.push(curr.videoRenderer);
-                    }
-                    for (const key in curr) {
-                        if (Object.prototype.hasOwnProperty.call(curr, key)) {
-                            traverse(curr[key]);
-                        }
-                    }
-                }
-                traverse(obj);
-                return renderers;
-            }
-
-            async function getYouTubeTrendingDirect() {
-                const html = await fetchWithProxy("https://www.youtube.com/feed/trending");
-                const match = html.match(/ytInitialData\s*=\s*({.+?});/);
-                if (!match) throw new Error("Không thể phân tích dữ liệu thịnh hành từ YouTube.");
-                const data = JSON.parse(match[1]);
-                const renderers = findVideoRenderers(data);
-                
-                const results = [];
-                renderers.forEach(item => {
-                    const videoId = item.videoId;
-                    if (!videoId) return;
-                    const title = item.title && item.title.runs ? item.title.runs[0].text : "YouTube Video";
-                    const author = item.ownerText && item.ownerText.runs ? item.ownerText.runs[0].text : (item.longBylineText && item.longBylineText.runs ? item.longBylineText.runs[0].text : "YouTube");
-                    const thumbnail = item.thumbnail && item.thumbnail.thumbnails ? item.thumbnail.thumbnails[0].url : `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
-                    const durationText = item.lengthText ? item.lengthText.simpleText : "0:00";
-                    
-                    results.push({
-                        videoId,
-                        title,
-                        author,
-                        thumbnail,
-                        durationText
-                    });
+                            throw new Error("Invalid response");
+                        });
                 });
-                return results;
+                
+                try {
+                    return await Promise.any(promises);
+                } catch (aggregateError) {
+                    throw new Error("Tất cả các máy chủ YouTube dự phòng đều đang bận. Vui lòng dán link trực tiếp!");
+                }
             }
 
-            async function searchYouTubeDirect(query) {
-                const html = await fetchWithProxy(`https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`);
-                const match = html.match(/ytInitialData\s*=\s*({.+?});/);
-                if (!match) throw new Error("Không thể phân tích kết quả tìm kiếm.");
-                const data = JSON.parse(match[1]);
-                const renderers = findVideoRenderers(data);
+            function mapPipedItem(item) {
+                const url = item.url || '';
+                let videoId = '';
+                const match = url.match(/[?&]v=([^&]+)/);
+                if (match) {
+                    videoId = match[1];
+                } else {
+                    videoId = url.replace('/watch?v=', '');
+                }
+
+                const title = item.title || "YouTube Video";
+                const author = item.uploaderName || item.author || "YouTube";
+                const thumbnail = item.thumbnail || `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
                 
-                const results = [];
-                renderers.forEach(item => {
-                    const videoId = item.videoId;
-                    if (!videoId) return;
-                    const title = item.title && item.title.runs ? item.title.runs[0].text : "YouTube Video";
-                    const author = item.ownerText && item.ownerText.runs ? item.ownerText.runs[0].text : (item.longBylineText && item.longBylineText.runs ? item.longBylineText.runs[0].text : "YouTube");
-                    const thumbnail = item.thumbnail && item.thumbnail.thumbnails ? item.thumbnail.thumbnails[0].url : `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
-                    const durationText = item.lengthText ? item.lengthText.simpleText : "0:00";
-                    
-                    results.push({
-                        videoId,
-                        title,
-                        author,
-                        thumbnail,
-                        durationText
-                    });
-                });
-                return results;
+                let secs = 0;
+                if (typeof item.duration === 'number') {
+                    secs = item.duration;
+                } else if (item.durationString) {
+                    const parts = item.durationString.split(':').map(Number);
+                    if (parts.length === 2) secs = parts[0] * 60 + parts[1];
+                    else if (parts.length === 3) secs = parts[0] * 3600 + parts[1] * 60 + parts[2];
+                }
+                const durationText = formatTime(secs);
+                
+                return {
+                    videoId,
+                    title,
+                    author,
+                    thumbnail,
+                    durationText
+                };
             }
 
             async function searchYouTube(query) {
@@ -903,7 +921,8 @@
                 }
 
                 try {
-                    const videos = await searchYouTubeDirect(query);
+                    const data = await fetchPipedParallel(`search?q=${encodeURIComponent(query)}&filter=music_songs`);
+                    const videos = (data.items || data).map(mapPipedItem);
                     if (DOM.ytSearchLoading) DOM.ytSearchLoading.classList.add('hidden');
                     if (videos.length === 0) {
                         if (DOM.ytResultsGrid) DOM.ytResultsGrid.innerHTML = '<div class="col-span-full text-center p-4">Không tìm thấy video nào. Vui lòng thử lại!</div>';
@@ -914,7 +933,7 @@
                     console.error("YouTube search error", err);
                     if (DOM.ytSearchLoading) DOM.ytSearchLoading.classList.add('hidden');
                     if (DOM.ytResultsGrid) {
-                        DOM.ytResultsGrid.innerHTML = `<div class="col-span-full text-center text-red-400 p-4">Không tìm thấy kết quả hoặc lỗi kết nối. Hãy thử dán link YouTube trực tiếp! (Lỗi: ${err.message})</div>`;
+                        DOM.ytResultsGrid.innerHTML = `<div class="col-span-full text-center text-red-400 p-4">Lỗi: ${err.message}</div>`;
                     }
                 }
             }
@@ -977,17 +996,30 @@
                 if (event.data === YT.PlayerState.PLAYING) {
                     isPlaying = true;
                     if (DOM.playIcon) DOM.playIcon.className = 'fas fa-pause ml-0';
+                    if (DOM.vinylCover) DOM.vinylCover.classList.remove('paused');
                     if (DOM.progressBar && ytPlayer) {
                         DOM.progressBar.max = ytPlayer.getDuration();
                         DOM.timeDuration.textContent = formatTime(ytPlayer.getDuration());
                     }
+                    
+                    // Force set volume to match volume slider on active playback
+                    const volVal = DOM.volumeSlider ? parseFloat(DOM.volumeSlider.value) : 1;
+                    try { ytPlayer.setVolume(volVal * 100); } catch(e) {}
+
                     startYtTimer();
+                    drawVisualizer();
                 } else if (event.data === YT.PlayerState.PAUSED) {
                     isPlaying = false;
                     if (DOM.playIcon) DOM.playIcon.className = 'fas fa-play ml-1';
+                    if (DOM.vinylCover) DOM.vinylCover.classList.add('paused');
                     stopYtTimer();
+                    cancelAnimationFrame(animationId);
+                    if (canvasCtx && DOM.canvas) canvasCtx.clearRect(0, 0, DOM.canvas.width, DOM.canvas.height);
                 } else if (event.data === YT.PlayerState.ENDED) {
+                    if (DOM.vinylCover) DOM.vinylCover.classList.add('paused');
                     stopYtTimer();
+                    cancelAnimationFrame(animationId);
+                    if (canvasCtx && DOM.canvas) canvasCtx.clearRect(0, 0, DOM.canvas.width, DOM.canvas.height);
                     handleTrackEnd();
                 }
             };
@@ -1113,7 +1145,7 @@
             if (DOM.btnFullscreen) {
                 DOM.btnFullscreen.onclick = () => {
                     if (!document.fullscreenElement) {
-                        if (activePlayerType === 'video' && DOM.videoElement) DOM.videoElement.requestFullscreen().catch(()=>{});
+                        if (activePlayerType === 'video' && DOM.videoContainer) DOM.videoContainer.requestFullscreen().catch(()=>{});
                         else if (activePlayerType === 'youtube' && DOM.ytContainer) DOM.ytContainer.requestFullscreen().catch(()=>{});
                         else document.documentElement.requestFullscreen();
                     } else document.exitFullscreen();
@@ -1165,7 +1197,24 @@
                 };
             }
 
-            // Trending Button Event (Loads Vietnam trending into playlist)
+            // Mobile playlist toggle
+            if (DOM.btnTogglePlaylist) {
+                DOM.btnTogglePlaylist.onclick = () => {
+                    isPlaylistOpen = !isPlaylistOpen;
+                    const sidebar = document.getElementById('playlistSidebar');
+                    if (isPlaylistOpen) {
+                        sidebar.classList.remove('hidden');
+                        sidebar.classList.add('fixed', 'inset-y-16', 'left-0', 'right-0', 'bottom-24', 'w-full', 'z-40', 'flex');
+                        DOM.btnTogglePlaylist.classList.add('text-zeng-green');
+                    } else {
+                        sidebar.classList.add('hidden');
+                        sidebar.classList.remove('fixed', 'inset-y-16', 'left-0', 'right-0', 'bottom-24', 'w-full', 'z-40', 'flex');
+                        DOM.btnTogglePlaylist.classList.remove('text-zeng-green');
+                    }
+                };
+            }
+
+            // Trending Button Event (Loads Vietnam trending music into playlist)
             if (DOM.btnTrending) {
                 DOM.btnTrending.onclick = async () => {
                     const originalHTML = DOM.btnTrending.innerHTML;
@@ -1173,7 +1222,8 @@
                     DOM.btnTrending.disabled = true;
                     
                     try {
-                        const trendingVideos = await getYouTubeTrendingDirect();
+                        const data = await fetchPipedParallel("search?q=nhac+trending+viet+nam&filter=music_songs");
+                        const trendingVideos = (data.items || data || []).map(mapPipedItem);
                         if (trendingVideos.length > 0) {
                             const newTracks = trendingVideos.map(video => ({
                                 type: 'youtube',
@@ -1191,7 +1241,7 @@
                                 playTrack(tracks.length - newTracks.length);
                             }
                             
-                            alert(`Đã thêm thành công ${newTracks.length} video thịnh hành từ YouTube vào danh sách phát!`);
+                            alert(`Đã thêm thành công ${newTracks.length} bài hát thịnh hành từ YouTube Music vào danh sách phát!`);
                         } else {
                             alert("Không tải được danh sách thịnh hành. Hãy thử lại!");
                         }
@@ -1201,6 +1251,90 @@
                     } finally {
                         DOM.btnTrending.innerHTML = originalHTML;
                         DOM.btnTrending.disabled = false;
+                    }
+                };
+            }
+            // State for fetching more (Queries list rotation to get new tracks)
+            const FETCH_MORE_QUERIES = [
+                "nhac hot tiktok hien nay",
+                "nhac tre remix hot nhat",
+                "nhac tre moi nhat hien nay",
+                "vietnamese trending music",
+                "nhac chill lofi viet nam"
+            ];
+            let fetchMoreIndex = 0;
+
+            if (DOM.btnFetchMore) {
+                DOM.btnFetchMore.onclick = async () => {
+                    const originalHTML = DOM.btnFetchMore.innerHTML;
+                    DOM.btnFetchMore.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Lấy tiếp';
+                    DOM.btnFetchMore.disabled = true;
+                    
+                    const query = FETCH_MORE_QUERIES[fetchMoreIndex % FETCH_MORE_QUERIES.length];
+                    fetchMoreIndex++;
+
+                    try {
+                        const data = await fetchPipedParallel(`search?q=${encodeURIComponent(query)}&filter=music_songs`);
+                        const trendingVideos = (data.items || data || []).map(mapPipedItem);
+                        
+                        // Avoid duplicates
+                        const existingIds = new Set(tracks.filter(t => t.type === 'youtube').map(t => t.videoId));
+                        const newTracks = trendingVideos.filter(v => !existingIds.has(v.videoId)).map(video => ({
+                            type: 'youtube',
+                            name: video.title,
+                            artist: video.author,
+                            videoId: video.videoId,
+                            thumb: video.thumbnail
+                        }));
+
+                        if (newTracks.length > 0) {
+                            tracks = [...tracks, ...newTracks];
+                            if (isShuffled) generateShuffleOrder();
+                            renderPlaylist();
+                            
+                            if (currentTrackIndex === -1) {
+                                playTrack(tracks.length - newTracks.length);
+                            }
+                            
+                            alert(`Đã lấy thêm thành công ${newTracks.length} bài hát mới vào danh sách phát!`);
+                        } else {
+                            alert("Không tìm thấy bài hát mới nào từ lượt tải này. Hãy thử lại!");
+                        }
+                    } catch (e) {
+                        console.error(e);
+                        alert(`Lỗi khi lấy tiếp nhạc: ${e.message}`);
+                    } finally {
+                        DOM.btnFetchMore.innerHTML = originalHTML;
+                        DOM.btnFetchMore.disabled = false;
+                    }
+                };
+            }
+
+            if (DOM.btnClearAll) {
+                DOM.btnClearAll.onclick = () => {
+                    if (confirm("Bạn có chắc chắn muốn xóa toàn bộ danh sách phát hiện tại?")) {
+                        tracks = [];
+                        currentTrackIndex = -1;
+                        if (DOM.audioElement) DOM.audioElement.pause();
+                        if (DOM.videoElement) DOM.videoElement.pause();
+                        if (ytPlayer && ytReady) {
+                            try { ytPlayer.stopVideo(); } catch(e) {}
+                        }
+                        stopYtTimer();
+                        isPlaying = false;
+                        if (DOM.playIcon) DOM.playIcon.className = 'fas fa-play ml-1';
+                        if (DOM.vinylCover) DOM.vinylCover.classList.add('paused');
+
+                        if (DOM.displayTitle) DOM.displayTitle.textContent = "Chưa có Media";
+                        if (DOM.displayType) DOM.displayType.textContent = "Hãy chọn nhạc để bắt đầu phát";
+                        if (DOM.bottomTitle) DOM.bottomTitle.textContent = "Chưa phát";
+                        if (DOM.bottomArtist) DOM.bottomArtist.textContent = "ZENG Player";
+                        if (DOM.thumbCover) DOM.thumbCover.style.backgroundImage = 'none';
+                        if (DOM.thumbIcon) DOM.thumbIcon.className = 'fas fa-music text-zeng-light text-xl';
+                        const vinylLabel = document.getElementById('vinylLabel');
+                        if (vinylLabel) vinylLabel.style.backgroundImage = 'repeating-radial-gradient(#800020, #800020 10px, #500014 10px, #500014 20px)';
+
+                        renderPlaylist();
                     }
                 };
             }
